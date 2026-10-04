@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meat Science Lab Practical | LAB SCIENCE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!--Header-->
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+
+        <nav class="main-nav">
+            <div class="nav-dropdown" >
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+            <div class="auth-status" id="auth-status"></div>
+        </nav>
+    </header>
+
+<main>
+        <!--Hero Section-->
+    <section class="hero">
+        <p class="hero-eyebrow">AS 8205 &middot; Beef, Poultry &amp; Eggs</p>
+        <h1>Practice as many times as it takes &mdash; not just as many samples as you can afford.</h1>
+        <p class="hero-sub">
+            Real fillets, casings, and reagents are limited and get consumed on use. Work through
+            each session below as many times as you need before your lab session, then bring that
+            familiarity to the real procedure with your supervisor.
+        </p>
+        <p class="important-note">NOTE: Be sure to read all the <a href="lab-rules.html" class="note-link">Laboratory Safety &amp; Health Rules.</a></p>
+        <p class="disclaimer-note">
+            <strong>About this simulation:</strong> these sessions are a preparation tool, built
+            to help you arrive at each practical already familiar with the procedure, terms, and
+            expected results. They do not replace the in-person lab &mdash; every practical below
+            must still be completed with your supervisor.
+        </p>
+    </section>
+
+    <section class="session-list" aria-label="Practical sessions">
+            <!--Article 00 - Laboratory Orientation-->
+    <article class="session-card">
+        <div class="session-card-status status-ready">Practical 1</div>
+        <h2>Laboratory Orientation</h2>
+        <p>Safety rules, lab introduction, and equipment orientation &mdash; completed in person with your supervisor.</p>
+        <a href="orientation.html" class="session-card-link">
+            View checklist <i class="arrow">&rarr;</i>
+        </a>
+    </article>
+
+    <!--Article 01 - Practical 2 (Chromameter + Texture Analyzer)-->
+    <article class="session-card">
+        <div class="session-card-status status-ready">Practical 2</div>
+        <h2>Meat Fillet Quality Attributes</h2>
+        <p>Measure the colour and tenderness of poultry fillets using two lab instruments.</p>
+
+        <details class="session-subgroup">
+            <summary>
+                <span>View sessions</span>
+                <i class="arrow">&rarr;</i>
+            </summary>
+            <ul class="session-sublist">
+                <li>
+                    <a href="chromameter.html">
+                        <span class="session-sublist-number">1.1</span>
+                        Chromameter
+                        <i class="arrow">&rarr;</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="texture-analyzer.html">
+                        <span class="session-sublist-number">1.2</span>
+                        Texture Analyzer
+                        <i class="arrow">&rarr;</i>
+                    </a>
+                </li>
+            </ul>
+        </details>
+    </article>
+
+    <!--Article 03 - Sausage Making-->
+    <article class="session-card" id="sausage-making">
+        <div class="session-card-status status-ready">Practical 3</div>
+        <h2>Sausage Making</h2>
+        <p>Formulation, seasoning, casing, and smoking procedure for a basic sausage batch.</p>
+        <a href="sausage-making.html" class="session-card-link">
+            Start session <i class="arrow">&rarr;</i>
+        </a>
+    </article>
+
+    <!--Article 04 - Sun Drying-->
+    <article class="session-card" id="sun-drying">
+        <div class="session-card-status status-ready">Practical 4</div>
+        <h2>Sun Drying for Preservation</h2>
+        <p>Track meat moisture loss over a multi-day sun-drying period.</p>
+        <a href="sun-drying.html" class="session-card-link">
+            Start session <i class="arrow">&rarr;</i>
+        </a>
+    </article>
+
+</section>
+
+    <section class="about-section" id="about">
+        <h2>About this lab</h2>
+        <p>
+            This simulation environment lets sudents complete practical sessions from the 
+            departmental manual on any device &mdash; no shared instrument queue, no scheduling 
+            conflicts. Readings are simulated within realistic ranges for each measurement type,
+            so the focus stays on procedure and interpretation.
+        </p>
+    </section>
+</main>
+
+    <!--Footer-->
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+    
+    <script src="auth.js"></script>
+</body>
+</html>

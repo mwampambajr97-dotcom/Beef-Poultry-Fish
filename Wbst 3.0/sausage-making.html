@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sausage Making | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+        </nav>
+    </header>
+
+    <main class="session-page">
+
+        <p class="session-breadcrumb"><a href="index.html">Sessions</a> / Sausage Making</p>
+
+        <h1>Making of Uncooked, Smoked Sausages</h1>
+        <p class="session-lede">
+            Beef sausages are made from seasoned ground meat, stuffed in casings, and smoked.
+            Uncooked, smoked sausages must be stored under refrigerated conditions afterward.
+        </p>
+
+        <p class="disclaimer-note">
+            <strong>This is a preparation tool, not a substitute for the real lab.</strong>
+            Working through this process here helps you learn the sequence and reasoning
+            behind each step before your session &mdash; it cannot teach knife handling, grinder
+            operation, or the hands-on judgement needed to actually produce a sausage batch.
+            You must still complete this practical in person with your supervisor.
+        </p>
+
+        <section class="materials-block">
+            <div class="materials-column">
+                <h2 class="bench-heading">Materials</h2>
+                <ul class="materials-list">
+                    <li>A sharp blade</li>
+                    <li>Fillet meat (fresh, clean, not contaminated)</li>
+                    <li>Spices and seasonings (nitrites, sugar, fresh and crushed)</li>
+                    <li>Casings</li>
+                    <li>Plastic gloves</li>
+                    <li>Tape (to label beaker)</li>
+                </ul>
+            </div>
+            <div class="materials-column">
+                <h2 class="bench-heading">Equipment</h2>
+                <ul class="materials-list">
+                    <li>Thermometer</li>
+                    <li>Scale</li>
+                    <li>Meat grinder</li>
+                    <li>Bowl chopper / mixer</li>
+                    <li>Sausage stuffer</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="session-subcard">
+            <h2 class="bench-heading">Sample Preparation</h2>
+            <ol class="procedure">
+                <li>Cut the meat fillet into smaller sizes.</li>
+                <li>Weigh the ingredients carefully before use.</li>
+            </ol>
+        </section>
+
+        <h2 class="bench-heading">Procedure</h2>
+        <ol class="procedure">
+            <li>For safety, keep the temperature of the meat as cold as possible.</li>
+            <li>Wash the pieces of meat and place them in the grinder on sample arrival at the laboratory.</li>
+            <li>Grind the various meats.</li>
+            <li>Add the rest of the ingredients as a slurry, mixing thoroughly. The slurry is made of spices and salt with two cups of water &mdash; this dissolves the curing ingredients, aids mixing, and gives the product its characteristic texture and taste.</li>
+            <li>Grind again to the desired consistency, distributing ingredients evenly and making particle size uniform.</li>
+            <li>Place the ground mixture into casings (natural or manufactured) to shape it and hold it together for thermal processing.</li>
+            <li>Smoke in three stages, then cool:
+                <div class="stage-timeline">
+                    <div class="stage">
+                        <span class="stage-temp">60&deg;C</span>
+                        <span class="stage-duration">1 hour</span>
+                    </div>
+                    <div class="stage-arrow">&rarr;</div>
+                    <div class="stage">
+                        <span class="stage-temp">71&deg;C</span>
+                        <span class="stage-duration">1 more hour</span>
+                    </div>
+                    <div class="stage-arrow">&rarr;</div>
+                    <div class="stage">
+                        <span class="stage-temp">82&deg;C</span>
+                        <span class="stage-duration">2 hours</span>
+                    </div>
+                </div>
+                <p class="stage-target">Target: internal temperature reaches 68&deg;C. Remove from the smokehouse and let the sausages cool.</p>
+            </li>
+        </ol>
+
+        <section class="specimen-log">
+            <div class="specimen-log-header">
+                <h2>Batch Process Checklist</h2>
+                <p class="specimen-log-count" id="checklist-count">0 of 7 confirmed</p>
+            </div>
+            <ul class="checklist" id="checklist">
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Kept meat cold throughout handling</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Washed and ground the meat</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground a second time for consistency</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Prepared and mixed in the slurry</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground to final consistency</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Stuffed the mixture into casings</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Completed all three smoking stages</label></li>
+            </ul>
+        </section>
+
+        <section class="bench">
+            <h2 class="bench-heading">Check Internal Temperature</h2>
+            <form id="reading-form" class="entry-row">
+                <div class="field">
+                    <label for="sample-id">Batch ID</label>
+                    <input type="text" id="sample-id" placeholder="S-01" required>
+                </div>
+                <button type="submit" id="measure-btn">Check temperature</button>
+            </form>
+
+            <div class="instrument instrument--curve" id="instrument">
+                <div class="instrument-readout instrument-readout--single">
+                    <div>
+                        <dt>Internal temperature</dt>
+                        <dd id="val-temp">&ndash;</dd>
+                    </div>
+                </div>
+                <p class="instrument-status" id="instrument-status">Enter a batch ID to begin.</p>
+            </div>
+        </section>
+
+        <section class="specimen-log">
+            <div class="specimen-log-header">
+                <h2>Recorded batches</h2>
+                <p class="specimen-log-count" id="log-count">0 batches</p>
+            </div>
+
+            <div class="specimen-grid" id="specimen-grid">
+                <p class="specimen-empty" id="specimen-empty">No batches logged yet &mdash; check a temperature above.</p>
+            </div>
+
+            <div class="specimen-average" id="specimen-average" hidden>
+                <span class="specimen-average-label">Average</span>
+                <div class="specimen-average-values">
+                    <span><b id="avg-temp">&ndash;</b> &deg;C</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+
+    <script src="seeded-random.js"></script>
+    <script src="checklist.js"></script>
+    <script src="sausage-making.js"></script>
+</body>
+</html>

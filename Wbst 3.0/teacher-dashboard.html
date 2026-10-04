@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+            <div class="auth-status" id="auth-status"></div>
+        </nav>
+    </header>
+
+    <main class="session-page">
+
+        <h1>Teacher Dashboard</h1>
+        <p class="session-lede">
+            This is where student submissions and results will appear once real
+            accounts and data storage exist.
+        </p>
+
+        <p class="disclaimer-note">
+            <strong>Placeholder page.</strong> There is no real student data to
+            show yet &mdash; readings taken on this device are not saved anywhere
+            a teacher can currently see. This page exists to show the shape of
+            what marking will look like once a real backend and database are
+            built (planned for later in the project).
+        </p>
+
+        <section class="session-subcard">
+            <h2 class="bench-heading">Once built, this page will show:</h2>
+            <ul class="materials-list">
+                <li>A list of students who have logged in</li>
+                <li>Each student's recorded readings per practical</li>
+                <li>A way to mark or comment on submitted results</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>

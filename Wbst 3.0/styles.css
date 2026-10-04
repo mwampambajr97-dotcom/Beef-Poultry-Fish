@@ -1,0 +1,446 @@
+:root {
+    --paper: #f7f6f2;
+    --surface: #ffffff;
+    --ink: #1e2430;
+    --ink-soft:#5b6270;
+    --line: #dcdacf;
+    --accent:#2f7a6e;
+    --accent-soft:#e4efec;
+    --data-warm:#c9622d;
+    --panel-bg:#14202b;
+    --panel-line:#263544;
+
+    --font-display: 'Source Serif 4', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-data: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--line);
+    background-color: var(--surface);
+}
+
+.wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+.auth-status {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.85rem;
+}
+
+.auth-name {
+    color: var(--ink-soft);
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    text-transform: capitalize;
+}
+
+.auth-link {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-trigger {
+    background: none;
+    border: none;
+    font: inherit;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px 0;
+}
+
+.chevron {
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid var(--ink-soft);
+    border-bottom: 1.5px solid var(--ink-soft);
+    transform: rotate(45deg);
+    margin-top: -3px;
+    transition: transform 0.15s ease;
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: -14px;
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    list-style: none;
+    min-width: 190px;
+    padding: 6px;
+    box-shadow: 0 8px 24px rgba(30, 36, 48, 0.08);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown:hover .chevron {
+    transform: rotate(225deg);
+    margin-top: 3px;
+}
+
+.nav-dropdown-menu li a {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--ink);
+}
+
+.nav-dropdown-menu li a:hover {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+}
+
+.hero {
+    max-width: 680px;
+    margin: 64px auto 48px;
+    padding: 0 24px;
+    text-align: left;
+}
+
+.hero-eyebrow {
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 16px;
+}
+
+.hero-sub {
+    color: var(--ink-soft);
+    font-size: 1rem;
+    max-width: 56ch;
+}
+
+.important-note {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 12px;
+}
+
+.note-link {
+    color: var(--data-warm);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.note-link:hover {
+    text-decoration-color: var(--data-warm);
+}
+
+.disclaimer-note {
+    background-color: #f0efe9;
+    border-left: 3px solid var(--ink-soft);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    max-width: 680px;
+}
+
+.disclaimer-note strong {
+    color: var(--ink);
+}
+
+.session-list {
+    max-width: 680px;
+    margin: 0 auto 64px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.session-card {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 26px;
+    position: relative;
+}
+
+.session-card-status {
+    display: inline-block;
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.status-ready {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+}
+
+.status-soon {
+    background-color: #f0efe9;
+    color: var(--ink-soft);
+}
+
+.session-card h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.session-card p {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+    max-width: 50ch;
+}
+
+.session-card-link {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.session-card-link .arrow {
+    transition: transform 0.15s ease;
+}
+
+.session-card-link:hover .arrow {
+    transform: translateX(3px);
+}
+
+.session-card-link.disabled {
+    color: #a8ac9f;
+    font-weight: 500;
+    cursor: default;
+}
+
+/* Expandable "Practical 2" card holding multiple sub-sessions */
+.session-subgroup {
+    margin-top: 4px;
+}
+
+.session-subgroup summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.session-subgroup summary::-webkit-details-marker {
+    display: none;
+}
+
+.session-subgroup summary .arrow {
+    transition: transform 0.15s ease;
+}
+
+.session-subgroup[open] summary .arrow {
+    transform: rotate(90deg);
+}
+
+.session-subgroup summary:hover .arrow {
+    transform: translateX(3px);
+}
+
+.session-subgroup[open] summary:hover .arrow {
+    transform: rotate(90deg) translateX(3px);
+}
+
+.session-sublist {
+    list-style: none;
+    margin-top: 14px;
+    padding-left: 4px;
+    border-left: 2px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.session-sublist li {
+    padding-left: 18px;
+}
+
+.session-sublist a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.session-sublist a:hover {
+    color: var(--accent);
+}
+
+.session-sublist a:hover .arrow {
+    transform: translateX(3px);
+}
+
+.session-sublist a .arrow {
+    margin-left: auto;
+    transition: transform 0.15s ease;
+}
+
+.session-sublist-number {
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background-color: var(--paper);
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+
+.about-section {
+    max-width: 680px;
+    margin: 0 auto 72px;
+    padding: 32px 26px 0;
+    border-top: 1px solid var(--line);
+}
+
+.about-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+}
+
+.about-section p {
+    color: var(--ink-soft);
+    max-width: 62ch;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--line);
+}
+
+/* =====================================================
+   RESPONSIVE — narrow screens (phones, small tablets)
+   Base styles above are written for desktop; these rules
+   override just what breaks on a narrow viewport.
+===================================================== */
+@media (max-width: 640px) {
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px 20px;
+    }
+
+    .main-nav {
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .nav-dropdown-menu {
+        left: 0;
+        min-width: 160px;
+    }
+
+    .hero {
+        margin: 36px auto 32px;
+        padding: 0 18px;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero-sub {
+        font-size: 0.92rem;
+    }
+
+    .session-list {
+        padding: 0 18px;
+    }
+
+    .session-card {
+        padding: 18px 20px;
+    }
+
+    .about-section {
+        padding: 28px 20px 0;
+    }
+}

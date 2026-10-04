@@ -1,0 +1,672 @@
+.session-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+}
+
+.session-breadcrumb {
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+}
+
+.session-breadcrumb a {
+    color: var(--accent);
+}
+
+.session-page h1 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.session-lede {
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin-bottom: 28px;
+}
+
+.procedure {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px 22px 44px;
+    margin-bottom: 32px;
+}
+
+.procedure li {
+    color: var(--ink);
+    font-size: 0.92rem;
+    margin-bottom: 9px;
+    line-height: 1.55;
+}
+
+.procedure li:last-child {
+    margin-bottom: 0;
+}
+
+.bench {
+    margin-bottom: 40px;
+}
+
+.entry-row {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 18px;
+}
+
+.field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+}
+
+.field input {
+    font-family: var(--font-data);
+    font-size: 0.95rem;
+    padding: 10px 13px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    width: 150px;
+    background-color: var(--surface);
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field input:disabled {
+    background-color: #f0efe9;
+    color: var(--ink-soft);
+    cursor: not-allowed;
+}
+
+#measure-btn,
+#start-btn {
+    font:inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+#measure-btn:hover,
+#start-btn:hover {
+    background-color: #266b60;
+}
+
+#measure-btn:active,
+#start-btn:active {
+    transform: scale(0.98);
+}
+
+#measure-btn:disabled,
+#start-btn:disabled {
+    background-color: #a8ac9f;
+    cursor: not-allowed;
+}
+
+.instrument {
+    background-color: var(--panel-bg);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.instrument-chip {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background-color: #2a3946;
+    border: 1px solid var(--panel-line);
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+}
+
+.instrument-readout {
+    display: flex;
+    gap: 28px;
+}
+
+.instrument-readout dt {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    color: #7b8b98;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.instrument-readout dd {
+    font-family: var(--font-data);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #f2f3f1;
+}
+
+.instrument-status {
+    font-size: 0.82rem;
+    color: #7d8b98;
+    width: 100%;
+    margin-top: -2px;
+}
+
+.specimen-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+}
+
+.specimen-log-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.specimen-log-count {
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+}
+
+.specimen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.specimen-empty {
+    grid-column: 1 / -1;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-style: italic;
+    padding: 18px 0;
+}
+
+.specimen-ticket {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    position: relative;
+    border-top: 3px dashed var(--line);
+}
+
+.specimen-ticket-id {
+    font-family: var(--font-data);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.specimen-ticket-values {
+    font-family: var(--font-data);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--ink);
+}
+
+.specimen-ticket-values span b {
+    color: var(--data-warm);
+    font-weight: 600;
+}
+
+.specimen-remove {
+    background: none;
+    border: none;
+    color: #b8bcae;
+    font-size: 0.95rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0 0 6px;
+}
+
+.specimen-remove:hover {
+    color: var(--data-warm);
+}
+
+.specimen-average {
+    background-color: var(--accent-soft);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.specimen-average[hidden] {
+    display: none;
+}
+
+.specimen-average-label {
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+}
+
+.specimen-average-values {
+    display: flex;
+    gap: 20px;
+    font-size: 0.88rem;
+    color: var(--ink);
+}
+
+.specimen-average-values b {
+    font-family: var(--font-data);
+    font-size: 1rem;
+}
+
+.instrument--curve {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+}
+
+.curve-wrap {
+    background-color: #0e1820;
+    border-radius: 8px;
+    border: 1px solid var(--panel-line);
+    padding: 10px;
+}
+
+.curve-svg {
+    width: 100%;
+    height: 110px;
+    display: block;
+}
+
+.curve-axis {
+    stroke: var(--panel-line);
+    stroke-width: 1;
+}
+
+.curve-line {
+fill:none;
+stroke: var(--accent);
+stroke-width: 2;
+stroke-linejoin: round;
+stroke-linecap: round;
+}
+
+.instrument-readout--single {
+    display: flex;
+}
+
+.instrument-readout--single dt {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    color: #7d8b98;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.instrument-readout--single dd {
+    font-family: var(--font-data);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #f2f3f1;
+}
+
+.specimen-tag {
+    display: inline-block;
+    margin-top: 4px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+
+/* =====================================================
+   ORIENTATION CHECKLIST
+===================================================== */
+.checklist {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.checklist-item {
+    border-bottom: 1px solid var(--line);
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checklist-item label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    font-size: 0.92rem;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.bench-heading {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+}
+
+.checklist-intro {
+    margin-bottom: 16px;
+}
+.session-subcard {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+}
+
+.materials-block {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.materials-column {
+    flex: 1;
+    min-width: 200px;
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 22px;
+}
+
+.materials-list {
+    list-style: none;
+}
+
+.materials-list li {
+    font-size: 0.9rem;
+    color: var(--ink);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.materials-list li:last-child {
+    border-bottom: none;
+}
+
+.stage-timeline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.stage {
+    background-color: var(--panel-bg);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 90px;
+}
+
+.stage-temp {
+    font-family: var(--font-data);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f2f3f1;
+}
+
+.stage-duration {
+    font-size: 0.72rem;
+    color: #7d8b98;
+    margin-top: 2px;
+}
+
+.stage-arrow {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+}
+
+.stage-target {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+}
+
+/* Comparison note under the Chromameter average */
+.reference-note {
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+/* Gentle prompt for logged-out visitors on practical pages */
+.login-prompt {
+    background-color: var(--accent-soft);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: var(--ink);
+}
+
+.login-prompt a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* =====================================================
+   LOGIN (placeholder — see auth.js for the real limits)
+===================================================== */
+.login-page {
+    max-width: 440px;
+}
+
+.login-form {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-form .field input {
+    width: 100%;
+}
+
+.role-field {
+    border: none;
+    padding: 0;
+}
+
+.role-field legend {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.role-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--ink);
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+.role-option input {
+    accent-color: var(--accent);
+}
+
+#login-btn {
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+#login-btn:hover {
+    background-color: #266b60;
+}
+
+/* =====================================================
+   SIMULATION DISCLAIMER
+   Deliberately distinct from .rules-section--alert (safety
+   warnings) — this is informational context, not a hazard.
+===================================================== */
+.disclaimer-note {
+    background-color: #f0efe9;
+    border-left: 3px solid var(--ink-soft);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+}
+
+.disclaimer-note strong {
+    color: var(--ink);
+}
+
+/* =====================================================
+   SUN DRYING
+===================================================== */
+.materials-block--tight {
+    margin-bottom: 0;
+}
+
+.bench-heading--small {
+    font-size: 0.9rem;
+}
+
+.day-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.day-btn {
+    font: inherit;
+    font-family: var(--font-data);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: #1c2a37;
+    color: #f2f3f1;
+    border: 1px solid var(--panel-line);
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.day-btn:hover:not(:disabled) {
+    background-color: #263544;
+}
+
+.day-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.day-btn.done {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    opacity: 1;
+}
+
+/* =====================================================
+   RESPONSIVE — narrow screens
+===================================================== */
+@media (max-width: 640px) {
+    .session-page {
+        padding: 32px 18px 60px;
+    }
+
+    .session-page h1 {
+        font-size: 1.35rem;
+    }
+
+    .procedure {
+        padding: 18px 18px 18px 34px;
+    }
+
+    .entry-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .field input {
+        width: 100%;
+    }
+
+    .instrument {
+        padding: 16px 18px;
+    }
+
+    .instrument-readout {
+        gap: 12px 18px;
+        flex-wrap: wrap;
+    }
+
+    .materials-block {
+        flex-direction: column;
+    }
+
+    .stage-timeline {
+        justify-content: center;
+    }
+
+    .specimen-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}

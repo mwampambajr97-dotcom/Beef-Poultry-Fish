@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+            <div class="auth-status" id="auth-status"></div>
+        </nav>
+    </header>
+
+    <main class="session-page login-page">
+
+        <h1>Log In</h1>
+        <p class="session-lede">
+            Enter your name and select your role to continue.
+        </p>
+
+        <p class="disclaimer-note">
+            <strong>This is not a real login yet.</strong> Nothing typed here is
+            checked against an account or password &mdash; it only sets a name and
+            role in this browser, so the site can show you the right view while
+            real accounts are being built. Anyone can type any name; do not treat
+            this as secure or private.
+        </p>
+
+        <form id="login-form" class="login-form">
+            <div class="field">
+                <label for="login-name">Your name</label>
+                <input type="text" id="login-name" placeholder="e.g. Amina Hassan" required>
+            </div>
+
+            <fieldset class="role-field">
+                <legend>I am a&hellip;</legend>
+                <label class="role-option">
+                    <input type="radio" name="role" value="student" checked>
+                    Student
+                </label>
+                <label class="role-option">
+                    <input type="radio" name="role" value="teacher">
+                    Teacher / Supervisor
+                </label>
+            </fieldset>
+
+            <button type="submit" id="login-btn">Continue</button>
+        </form>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

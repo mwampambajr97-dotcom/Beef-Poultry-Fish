@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun Drying for Preservation | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+            <div class="auth-status" id="auth-status"></div>
+        </nav>
+    </header>
+
+    <main class="session-page" data-login-prompt>
+
+        <p class="session-breadcrumb"><a href="index.html">Sessions</a> / Sun Drying for Preservation</p>
+
+        <h1>Sun Drying Meat for Preservation</h1>
+        <p class="session-lede">
+            Drying removes moisture from meat so microorganisms cannot grow, allowing the product
+            to be stored at room temperature without rapid spoilage. Moisture is tracked over a
+            six-day drying period, checked every two days.
+        </p>
+
+        <p class="disclaimer-note">
+            <strong>This is a preparation tool, not a substitute for the real lab.</strong>
+            The real practical unfolds over six actual days &mdash; this page compresses that into
+            one sitting so you can learn the checkpoint sequence and what a drying curve looks
+            like. It cannot replace watching and weighing a real sample over real time.
+        </p>
+
+        <section class="session-subcard">
+            <h2 class="bench-heading">Materials &amp; Equipment</h2>
+            <div class="materials-block materials-block--tight">
+                <div class="materials-column">
+                    <h3 class="bench-heading bench-heading--small">Materials</h3>
+                    <ul class="materials-list">
+                        <li>Meat steaks</li>
+                        <li>Salt</li>
+                    </ul>
+                </div>
+                <div class="materials-column">
+                    <h3 class="bench-heading bench-heading--small">Equipment</h3>
+                    <ul class="materials-list">
+                        <li>A sharp knife</li>
+                        <li>Tray</li>
+                        <li>Culinary scale</li>
+                        <li>Marker</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <ol class="procedure">
+            <li>Trim excess fat from the beef so the meat is lean, then weigh it.</li>
+            <li>Cut the beef into a uniform shape, so a whole batch dries equally and simultaneously.</li>
+            <li>Mark the weight of each cut individually.</li>
+            <li>Season with salt to inhibit microbial growth (approx. 14% common salt solution).</li>
+            <li>Analyze and record moisture using a moisture analyzer.</li>
+            <li>Lay the pieces in the open sun to dry.</li>
+            <li>Analyze moisture every two days, for six days.</li>
+        </ol>
+
+        <section class="bench">
+            <h2 class="bench-heading">Track Moisture Over Time</h2>
+
+            <form id="start-form" class="entry-row">
+                <div class="field">
+                    <label for="sample-id">Steak ID</label>
+                    <input type="text" id="sample-id" placeholder="D-01" required>
+                </div>
+                <button type="submit" id="start-btn">Start batch</button>
+            </form>
+
+            <div class="instrument instrument--curve" id="instrument" hidden>
+                <div class="curve-wrap">
+                    <svg viewBox="0 0 300 120" class="curve-svg" id="curve-svg" preserveAspectRatio="none">
+                        <line x1="0" y1="119" x2="300" y2="119" class="curve-axis" />
+                        <polyline id="curve-line" class="curve-line" points="" />
+                    </svg>
+                </div>
+
+                <div class="day-buttons" id="day-buttons">
+                    <button type="button" class="day-btn" data-day="0">Day 0</button>
+                    <button type="button" class="day-btn" data-day="2">Day 2</button>
+                    <button type="button" class="day-btn" data-day="4">Day 4</button>
+                    <button type="button" class="day-btn" data-day="6">Day 6</button>
+                </div>
+
+                <p class="instrument-status" id="instrument-status">Recording Day 0 establishes this batch's starting moisture.</p>
+            </div>
+        </section>
+
+        <section class="specimen-log">
+            <div class="specimen-log-header">
+                <h2>Recorded checkpoints</h2>
+                <p class="specimen-log-count" id="log-count">0 of 4 recorded</p>
+            </div>
+
+            <div class="specimen-grid" id="specimen-grid">
+                <p class="specimen-empty" id="specimen-empty">No checkpoints yet &mdash; start a batch above.</p>
+            </div>
+
+            <p class="disclaimer-note" id="target-note" hidden>
+                <strong>No pass/fail is shown here, on purpose.</strong> The manual does not
+                state a target final moisture percentage. In published guidance for dried
+                meat (for example USDA jerky guidance and New Zealand biltong rules), the
+                safety benchmark is <em>water activity</em> below about 0.85, not a moisture
+                percentage &mdash; because the moisture figure that reaches that point changes
+                with how much salt and sugar the meat contains. Your moisture-analyzer readings
+                show that drying is happening; they do not on their own show the batch is safe
+                to store.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+
+    <script src="seeded-random.js"></script>
+    <script src="sun-drying.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

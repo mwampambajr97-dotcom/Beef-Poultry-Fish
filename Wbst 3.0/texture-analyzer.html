@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texture Analyzer | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+            <div class="auth-status" id="auth-status"></div>
+  </nav>
+</header>
+
+<main class="session-page" data-login-prompt>
+    <p class="session-breadcrumb"><a href="index.html">Sessions</a> / Texture Analyzer</p>
+
+    <h1>Meat Fillet Tenderness Measurement</h1>
+    <p class="session-lede">
+        Measure the tenderness of a cooked meat fillet using a texture analyzer fitted with a 
+        shear blade. The instrument records force as it cuts through the sample; the peak
+        force reached is the shear force value.
+    </p>
+
+    <p class="disclaimer-note">
+        <strong>This is a preparation tool, not a substitute for the real lab.</strong>
+        Simulated readings help you learn the procedure, terminology, and expected value
+        ranges before your session &mdash; they cannot teach instrument handling, real
+        biological variability, or hands-on technique. You must still complete this
+        practical in person with your supervisor.
+    </p>
+
+    <ol class="procedure">
+        <li>Cook the sample to the specified internal temperature and allow it to rest.</li>
+        <li>Cut a standardised core sample, parallel to the muscel fibre direction.</li>
+        <li>Position the sample under the shear blade.</li>
+        <li>Run the test: the blade descends at a fixed speed through the sample.</li>
+        <li>Record the peak shear force from the resulting force-deflection curve.</li>
+        <li>Repeat for a minimum of three core per sample.</li>
+    </ol>
+
+    <section class="bench">
+        <form id="reading-form" class="entry-row">
+            <div class="field">
+                <label for="sample-id">Sample ID</label>
+                <input type="text" id="sample-id" placeholder="B-O1" required>
+            </div>
+            <button type="submit" id="measure-btn">Run test</button>
+        </form>
+
+        <div class="instrument instrument--curve" id="instrument">
+            <div class="curve-wrap">
+                <svg viewBox="0 0 300 120" class="curve-svg" id="curve-svg" preserveAspectRatio="none">
+                    <line x1="0" y1="119" x2="300" y2="119" class="curve-axis" />
+                <polyline id="curve-line" class="curve-line" points="" />
+                </svg>
+            </div>
+            <div class="instrument-readout instrument-readout--single">
+                <div>
+                    <dt>Peak shear force</dt>
+                    <dd id="val-peak">&ndash;</dd>
+                </div>
+            </div>
+            <p class="instrument-status" id="instrument-status">Enter a sample ID to begin.</p>
+        </div>
+</section>
+
+<section class="specimen-log">
+    <div class="specimen-log-header">
+        <h2>Recorded readings</h2>
+        <p class="specimen-log-count" id="log-count">0 readings</p>
+    </div>
+
+    <div class="specimen-grid" id="specimen-grid">
+        <p class="specimen-empty" id="specimen-empty">No readings yet &mdash; run a test above.</p>
+    </div>
+
+    <div class="specimen-average" id="specimen-average" hidden>
+        <span class="specimen-average-label">Average</span>
+        <div class="specimen-average-values">
+            <span><b id="avg-peak">&ndash;</b>N</span>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+</footer>
+
+<script src="seeded-random.js"></script>
+<script src="texture-analyzer.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

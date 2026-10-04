@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratory Orientation | Meat Science Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Meat Science Lab</a>
+        <nav class="main-nav">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger" aria-expanded="false">
+                    Sessions
+                    <i class="chevron"></i>
+                </button>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="orientation.html">1. Orientation</a></li>
+                    <li><a href="chromameter.html">1.1 Chromameter</a></li>
+                    <li><a href="texture-analyzer.html">1.2 Texture Analyzer</a></li>
+                    <li><a href="sausage-making.html">3. Sausage Making</a></li>
+                    <li><a href="sun-drying.html">4. Sun Drying</a></li>
+                </ul>
+            </div>
+            <a href="index.html#about">About</a>
+        </nav>
+    </header>
+
+    <main class="session-page">
+
+        <p class="session-breadcrumb"><a href="index.html">Sessions</a> / Laboratory Orientation</p>
+
+        <h1>Laboratory Orientation</h1>
+        <p class="session-lede">
+            Before starting any practical session, you must be shown the following in person by
+            your lab supervisor. This page is not a simulation &mdash; it is a record for you to
+            confirm what you were shown during your in-person orientation.
+        </p>
+
+        <section class="bench">
+            <h2 class="bench-heading">Objectives</h2>
+            <ol class="procedure">
+                <li>Discussion of laboratory safety rules &mdash; see the <a href="lab-rules.html" class="note-link">full Lab Safety &amp; Health Rules</a>.</li>
+                <li>A brief introduction to working in the laboratory.</li>
+                <li>Practical grouping of students.</li>
+                <li>Equip group cupboards with the necessary glassware and apparatus needed for practical.</li>
+            </ol>
+        </section>
+
+        <section class="specimen-log">
+            <div class="specimen-log-header">
+                <h2>1.1 Health &amp; Safety Equipment</h2>
+                <p class="specimen-log-count" id="checklist-count">0 of 7 confirmed</p>
+            </div>
+
+            <p class="session-lede checklist-intro">
+                Check off each item once your supervisor has shown you its location and,
+                where applicable, explained how to use it.
+            </p>
+
+            <ul class="checklist" id="checklist">
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        The closest emergency exit
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        The closest emergency phone and emergency phone numbers
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        Closest fire alarm
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        Fire extinguishers, and explanation of use
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        Safety showers, and explanation of operation
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        Eye wash facilities
+                    </label>
+                </li>
+                <li class="checklist-item">
+                    <label>
+                        <input type="checkbox" data-checklist-item>
+                        First aid kit
+                    </label>
+                </li>
+            </ul>
+
+            <div class="specimen-average" id="checklist-complete" hidden>
+                <span class="specimen-average-label">Orientation complete</span>
+                <div class="specimen-average-values">
+                    <span>All items confirmed for this session.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
+    </footer>
+
+    <script src="checklist.js"></script>
+</body>
+</html>
