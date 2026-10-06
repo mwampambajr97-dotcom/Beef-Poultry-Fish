@@ -39,25 +39,37 @@
 
         <h1>Teacher Dashboard</h1>
         <p class="session-lede">
-            This is where student submissions and results will appear once real
-            accounts and data storage exist.
+            Real student readings, saved as students complete each practical.
         </p>
 
-        <p class="disclaimer-note">
-            <strong>Placeholder page.</strong> There is no real student data to
-            show yet &mdash; readings taken on this device are not saved anywhere
-            a teacher can currently see. This page exists to show the shape of
-            what marking will look like once a real backend and database are
-            built (planned for later in the project).
-        </p>
+        <div id="dashboard-state">
+            <p class="disclaimer-note">Loading&hellip;</p>
+        </div>
 
-        <section class="session-subcard">
-            <h2 class="bench-heading">Once built, this page will show:</h2>
-            <ul class="materials-list">
-                <li>A list of students who have logged in</li>
-                <li>Each student's recorded readings per practical</li>
-                <li>A way to mark or comment on submitted results</li>
-            </ul>
+        <section class="session-subcard" id="summary-card" hidden>
+            <h2 class="bench-heading">Summary</h2>
+            <p id="summary-text" class="session-lede summary-text"></p>
+        </section>
+
+        <section class="specimen-log" id="readings-section" hidden>
+            <div class="specimen-log-header">
+                <h2>All readings</h2>
+                <p class="specimen-log-count" id="readings-count">0 readings</p>
+            </div>
+            <div id="readings-table-wrap">
+                <table class="dashboard-table" id="readings-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Practical</th>
+                            <th>Sample ID</th>
+                            <th>Result</th>
+                            <th>When</th>
+                        </tr>
+                    </thead>
+                    <tbody id="readings-body"></tbody>
+                </table>
+            </div>
         </section>
 
     </main>
@@ -66,6 +78,7 @@
         <p>Department of Food Sciences &middot; A preparation tool, not a substitute for the in-person lab.</p>
     </footer>
 
-    <script src="auth.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script src="teacher-dashboard.js"></script>
 </body>
 </html>

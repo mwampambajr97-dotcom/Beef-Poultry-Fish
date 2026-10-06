@@ -493,10 +493,48 @@ stroke-linecap: round;
 }
 
 /* =====================================================
-   LOGIN (placeholder — see auth.js for the real limits)
+   LOGIN (real Firebase authentication — see auth.js)
 ===================================================== */
 .login-page {
     max-width: 440px;
+}
+
+.login-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    background-color: #f0efe9;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.login-tab {
+    flex: 1;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    padding: 9px 0;
+    border-radius: 6px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.login-tab.active {
+    background-color: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(30, 36, 48, 0.1);
+}
+
+.form-error {
+    background-color: #fbe9e3;
+    color: #a4402a;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
 }
 
 .login-form {
@@ -511,33 +549,6 @@ stroke-linecap: round;
 
 .login-form .field input {
     width: 100%;
-}
-
-.role-field {
-    border: none;
-    padding: 0;
-}
-
-.role-field legend {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-    padding: 0;
-}
-
-.role-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: var(--ink);
-    padding: 6px 0;
-    cursor: pointer;
-}
-
-.role-option input {
-    accent-color: var(--accent);
 }
 
 #login-btn {
@@ -555,6 +566,52 @@ stroke-linecap: round;
 
 #login-btn:hover {
     background-color: #266b60;
+}
+
+#login-btn:disabled {
+    background-color: #a8ac9f;
+    cursor: not-allowed;
+}
+
+/* =====================================================
+   TEACHER DASHBOARD
+===================================================== */
+.summary-text {
+    margin-bottom: 0;
+}
+
+#readings-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--surface);
+    font-size: 0.88rem;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+}
+
+.dashboard-table th {
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    background-color: var(--paper);
+}
+
+.dashboard-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 /* =====================================================

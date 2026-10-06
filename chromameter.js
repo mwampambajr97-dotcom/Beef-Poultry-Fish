@@ -88,6 +88,11 @@ form.addEventListener('submit', (event) => {
         updateSummary();
         status.textContent = 'Reading complete.';
         measureBtn.disabled = false;
+
+        // Saves only if signed in; does nothing otherwise (see auth.js).
+        window.Auth?.saveReading('chromameter', sampleId, {
+            L: reading.L, a: reading.a, b: reading.b
+        });
     }, 450);
 });
 
