@@ -73,7 +73,9 @@ function practicalLabel(key) {
         'chromameter': 'Chromameter',
         'texture-analyzer': 'Texture Analyzer',
         'sausage-making': 'Sausage Making',
-        'sun-drying': 'Sun Drying'
+        'sun-drying': 'Sun Drying',
+        'orientation': 'Orientation',
+        'sausage-making-checklist': 'Sausage Making (checklist)'
     };
     return labels[key] || key;
 }
@@ -91,6 +93,9 @@ function resultSummary(r) {
             return `${fmt(d.temp)}\u00B0C ${d.passed ? '(target reached)' : '(below target)'}`;
         case 'sun-drying':
             return `Day ${d.day}: ${fmt(d.moisture)}% moisture`;
+        case 'orientation':
+        case 'sausage-making-checklist':
+            return `${d.confirmed} of ${d.total} confirmed`;
         default:
             return JSON.stringify(d);
     }
