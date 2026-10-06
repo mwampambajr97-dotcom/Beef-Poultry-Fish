@@ -70,6 +70,8 @@ form.addEventListener('submit', (event) => {
             ? `Target reached (\u226568\u00B0C). Batch complete.`
             : `Below target (68\u00B0C) \u2014 continue smoking.`;
         measureBtn.disabled = false;
+
+        window.Auth?.saveReading('sausage-making', sampleId, { temp, passed });
     }, 500);
 });
 

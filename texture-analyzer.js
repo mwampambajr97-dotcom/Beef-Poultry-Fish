@@ -77,6 +77,8 @@ form.addEventListener('submit', (event) => {
 
         status.textContent = `Peak force reached: ${peakForce.toFixed(1)} N.`;
         measureBtn.disabled = false;
+
+        window.Auth?.saveReading('texture-analyzer', sampleId, { peakForce });
     }, 500);
 });
 

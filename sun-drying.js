@@ -77,6 +77,8 @@ dayButtons.forEach((btn) => {
 
         status.textContent = `Day ${day}: ${moisture.toFixed(1)}% moisture.`;
 
+        window.Auth?.saveReading('sun-drying', currentBatch.sampleId, { day, moisture });
+
         if (day === 6) {
             targetNote.hidden = false;
         }
