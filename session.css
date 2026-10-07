@@ -89,7 +89,8 @@
 }
 
 #measure-btn,
-#start-btn {
+#start-btn,
+.checklist-submit-btn {
     font:inherit;
     font-weight: 600;
     font-size: 0.9rem;
@@ -103,17 +104,20 @@
 }
 
 #measure-btn:hover,
-#start-btn:hover {
+#start-btn:hover,
+.checklist-submit-btn:hover:not(:disabled) {
     background-color: #266b60;
 }
 
 #measure-btn:active,
-#start-btn:active {
+#start-btn:active,
+.checklist-submit-btn:active:not(:disabled) {
     transform: scale(0.98);
 }
 
 #measure-btn:disabled,
-#start-btn:disabled {
+#start-btn:disabled,
+.checklist-submit-btn:disabled {
     background-color: #a8ac9f;
     cursor: not-allowed;
 }
@@ -372,27 +376,11 @@ stroke-linecap: round;
     cursor: pointer;
 }
 
+/* Color, hover, active, and disabled states for this button are
+   defined once, in the shared #measure-btn / #start-btn rule above
+   — this just adds the spacing specific to where it sits here. */
 .checklist-submit-btn {
-    font: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-    background-color: var(--accent);
-    color: #fff;
-    border: none;
-    padding: 11px 22px;
-    border-radius: 7px;
-    cursor: pointer;
     margin-top: 4px;
-    transition: background-color 0.15s ease;
-}
-
-.checklist-submit-btn:hover:not(:disabled) {
-    background-color: #266b60;
-}
-
-.checklist-submit-btn:disabled {
-    background-color: #a8ac9f;
-    cursor: not-allowed;
 }
 
 .checklist-submit-status {
