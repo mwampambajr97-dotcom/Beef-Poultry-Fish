@@ -1,30 +1,30 @@
 // =====================================================
 // Shared checklist logic
 // Used by any page with a set of [data-checklist-item]
-// checkboxes and a #checklist-count label. The optional
-// #checklist-complete block is only present on some pages
-// (e.g. Orientation) — guarded so this works either way.
+// checkboxes, a #checklist-count label, and a
+// #checklist-submit-btn / #checklist-submit-status pair.
 //
-// Saving: a checklist represents one completion event, not
-// a series of independent readings like the instrument pages.
-// So this saves ONCE, the moment it first reaches 100% — not
-// on every single checkbox click, which would otherwise create
-// a new database entry per click. The container element needs
-// a data-save-key attribute (e.g. data-save-key="orientation")
-// to say what this checklist should be labelled as when saved;
-// if that attribute is missing, saving is simply skipped.
+// The submit button stays disabled until every item is
+// checked, then the student has to actively press it —
+// nothing saves silently in the background. The container
+// needs a data-save-key attribute (e.g.
+// data-save-key="orientation") to say what this checklist
+// should be labelled as when saved.
 // =====================================================
 
 const checkboxes = document.querySelectorAll('[data-checklist-item]');
 const countLabel = document.getElementById('checklist-count');
-const completeBlock = document.getElementById('checklist-complete');
 const checklistContainer = document.getElementById('checklist');
-
-let alreadySaved = false;
+const submitBtn = document.getElementById('checklist-submit-btn');
+const submitStatus = document.getElementById('checklist-submit-status');
 
 checkboxes.forEach((box) => {
     box.addEventListener('change', updateChecklistProgress);
 });
+
+if (submitBtn) {
+    submitBtn.addEventListener('click', handleSubmit);
+}
 
 function updateChecklistProgress() {
     const total = checkboxes.length;
@@ -34,30 +34,57 @@ function updateChecklistProgress() {
         countLabel.textContent = `${checked} of ${total} confirmed`;
     }
 
-    if (completeBlock) {
-        completeBlock.hidden = checked !== total;
+    if (submitBtn) {
+        const allChecked = checked === total;
+        submitBtn.disabled = !allChecked;
+        // If something gets unchecked after a submit, make it resubmittable.
+        if (!allChecked && submitBtn.textContent === 'Submitted \u2713') {
+            submitBtn.textContent = 'Submit checklist';
+        }
     }
 
-    if (checked === total && !alreadySaved) {
-        alreadySaved = true;
-        saveCompletion(checked, total);
-    }
-
-    // If someone unchecks an item after completing it, allow a fresh
-    // save next time they get back to 100% (e.g. they fixed a mistake).
-    if (checked !== total) {
-        alreadySaved = false;
+    if (submitStatus && checked !== total) {
+        submitStatus.textContent = '';
+        submitStatus.className = 'checklist-submit-status';
     }
 }
 
-function saveCompletion(checked, total) {
+async function handleSubmit() {
     const saveKey = checklistContainer?.dataset.saveKey;
-    if (!saveKey) return; // no key set on this page — nothing to save against
+
+    // Check sign-in state up front, before attempting anything, so the
+    // student gets an honest answer immediately rather than a delay.
+    if (!window.Auth?.currentUser) {
+        showStatus('You are not logged in, so this will not be saved. Log in, then submit again.', 'error');
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting\u2026';
+    showStatus('', '');
 
     const items = Array.from(checkboxes).map((box) => {
         const label = box.closest('label');
         return label ? label.textContent.trim() : '';
     });
 
-    window.Auth?.saveReading(saveKey, 'checklist', { confirmed: checked, total, items });
+    const total = checkboxes.length;
+    const result = saveKey
+        ? await window.Auth.saveReading(saveKey, 'checklist', { confirmed: total, total, items })
+        : null;
+
+    if (result) {
+        submitBtn.textContent = 'Submitted \u2713';
+        showStatus('Submitted. Your supervisor can see this was confirmed.', 'success');
+    } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit checklist';
+        showStatus('Could not save \u2014 check your connection and try again.', 'error');
+    }
+}
+
+function showStatus(text, kind) {
+    if (!submitStatus) return;
+    submitStatus.textContent = text;
+    submitStatus.className = 'checklist-submit-status' + (kind ? ` checklist-submit-status--${kind}` : '');
 }
