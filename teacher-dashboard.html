@@ -35,16 +35,84 @@
         </nav>
     </header>
 
-    <main class="session-page">
+    <main class="session-page dashboard-page">
 
         <h1>Teacher Dashboard</h1>
         <p class="session-lede">
-            Real student readings, saved as students complete each practical.
+            Two different kinds of record live here: simulation activity students
+            generated themselves below, and real-lab completions that only you
+            can mark &mdash; the system cannot tell on its own whether a student
+            actually attended and completed the in-person practical.
         </p>
 
         <div id="dashboard-state">
             <p class="disclaimer-note">Loading&hellip;</p>
         </div>
+
+        <p class="disclaimer-note" id="completions-unavailable" hidden>
+            Real-lab completion records could not be loaded, so marking is
+            unavailable right now. If this is a new setup, the updated Firestore
+            security rules may not have been published yet. Simulation activity
+            below is unaffected.
+        </p>
+
+        <section class="session-subcard" id="mark-completion-card" hidden>
+            <h2 class="bench-heading">Mark a Real Lab Completion</h2>
+            <p class="session-lede checklist-intro">
+                Use this after you've personally witnessed a student complete a
+                practical in person. This is your own record, separate from
+                anything the simulation captured.
+            </p>
+
+            <form id="completion-form" class="login-form completion-form">
+                <div class="field">
+                    <label for="completion-student">Student</label>
+                    <select id="completion-student" required>
+                        <option value="" disabled selected>Choose a student&hellip;</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="completion-practical">Practical</label>
+                    <select id="completion-practical" required>
+                        <option value="orientation">1. Orientation</option>
+                        <option value="chromameter">1.1 Chromameter</option>
+                        <option value="texture-analyzer">1.2 Texture Analyzer</option>
+                        <option value="sausage-making">3. Sausage Making</option>
+                        <option value="sun-drying">4. Sun Drying</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="completion-note">Note (optional)</label>
+                    <input type="text" id="completion-note" placeholder="e.g. Completed 15 Oct, good technique">
+                </div>
+
+                <button type="submit" id="completion-submit-btn">Mark as completed</button>
+                <p class="checklist-submit-status" id="completion-status"></p>
+            </form>
+        </section>
+
+        <section class="specimen-log" id="completions-section" hidden>
+            <div class="specimen-log-header">
+                <h2>Real lab completions</h2>
+                <p class="specimen-log-count" id="completions-count">0 completions</p>
+            </div>
+            <div id="completions-table-wrap">
+                <table class="dashboard-table" id="completions-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Practical</th>
+                            <th>Note</th>
+                            <th>Marked by</th>
+                            <th>When</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completions-body"></tbody>
+                </table>
+            </div>
+        </section>
 
         <section class="session-subcard" id="summary-card" hidden>
             <h2 class="bench-heading">Summary</h2>
@@ -53,7 +121,7 @@
 
         <section class="specimen-log" id="readings-section" hidden>
             <div class="specimen-log-header">
-                <h2>All readings</h2>
+                <h2>Simulation activity</h2>
                 <p class="specimen-log-count" id="readings-count">0 readings</p>
             </div>
             <div id="readings-table-wrap">

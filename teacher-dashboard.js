@@ -6,9 +6,31 @@
 // control is enforced by Firestore's security rules — this
 // script's role check is just so a student sees a clear
 // message instead of a confusing permissions error.
+//
+// Two distinct kinds of record are shown here:
+// - "Simulation activity" (readings): generated automatically
+//   by the app as students practise. Proves practice happened,
+//   nothing more.
+// - "Real lab completions": only ever created by a teacher,
+//   through the form on this page, after actually witnessing
+//   a student complete the real practical. The app has no way
+//   to generate these on its own.
 // =====================================================
 
 const stateBox = document.getElementById('dashboard-state');
+
+const markCard = document.getElementById('mark-completion-card');
+const completionForm = document.getElementById('completion-form');
+const studentSelect = document.getElementById('completion-student');
+const practicalSelect = document.getElementById('completion-practical');
+const noteInput = document.getElementById('completion-note');
+const completionSubmitBtn = document.getElementById('completion-submit-btn');
+const completionStatus = document.getElementById('completion-status');
+
+const completionsSection = document.getElementById('completions-section');
+const completionsCount = document.getElementById('completions-count');
+const completionsBody = document.getElementById('completions-body');
+
 const summaryCard = document.getElementById('summary-card');
 const summaryText = document.getElementById('summary-text');
 const readingsSection = document.getElementById('readings-section');
@@ -28,12 +50,66 @@ window.addEventListener('auth-ready', async (event) => {
         return;
     }
 
+    const [studentsRes, completionsRes, readingsRes] = await Promise.allSettled([
+        window.Auth.getAllStudents(),
+        window.Auth.getAllCompletions(),
+        window.Auth.getAllReadings()
+    ]);
+
+    // Simulation activity is the page's baseline. If even that can't
+    // load, there is nothing useful to show.
+    if (readingsRes.status === 'rejected') {
+        console.error(readingsRes.reason);
+        showMessage('Could not load student data. Check your connection and try refreshing.');
+        return;
+    }
+
+    stateBox.hidden = true;
+    stateBox.innerHTML = '';
+    renderReadings(readingsRes.value);
+
+    // Completions are loaded separately so that a problem with them
+    // (for example, new security rules not yet published) doesn't take
+    // the whole dashboard down with it.
+    if (studentsRes.status === 'fulfilled' && completionsRes.status === 'fulfilled') {
+        populateStudentSelect(studentsRes.value);
+        markCard.hidden = false;
+        renderCompletions(completionsRes.value);
+    } else {
+        console.error(studentsRes.reason || completionsRes.reason);
+        document.getElementById('completions-unavailable').hidden = false;
+    }
+});
+
+completionForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const option = studentSelect.selectedOptions[0];
+    const studentUid = studentSelect.value;
+    const studentName = option ? option.textContent : '';
+    const practical = practicalSelect.value;
+    const note = noteInput.value.trim();
+
+    if (!studentUid) return;
+
+    completionSubmitBtn.disabled = true;
+    completionSubmitBtn.textContent = 'Saving\u2026';
+    setCompletionStatus('', '');
+
     try {
-        const readings = await window.Auth.getAllReadings();
-        renderDashboard(readings);
+        await window.Auth.markCompletion(studentUid, studentName, practical, note);
+        setCompletionStatus(`Marked \u2014 ${studentName}, ${practicalLabel(practical)}.`, 'success');
+        noteInput.value = '';
+        studentSelect.selectedIndex = 0;
+
+        const completions = await window.Auth.getAllCompletions();
+        renderCompletions(completions);
     } catch (err) {
         console.error(err);
-        showMessage('Could not load student data. Check your connection and try refreshing.');
+        setCompletionStatus('Could not save this. Check your connection and try again.', 'error');
+    } finally {
+        completionSubmitBtn.disabled = false;
+        completionSubmitBtn.textContent = 'Mark as completed';
     }
 });
 
@@ -41,22 +117,52 @@ function showMessage(text) {
     stateBox.innerHTML = `<p class="disclaimer-note">${escapeHtml(text)}</p>`;
 }
 
-function renderDashboard(readings) {
-    stateBox.hidden = true;
-    stateBox.innerHTML = '';
+function setCompletionStatus(text, kind) {
+    completionStatus.textContent = text;
+    completionStatus.className = 'checklist-submit-status' + (kind ? ` checklist-submit-status--${kind}` : '');
+}
 
+function populateStudentSelect(students) {
+    const sorted = [...students].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    const options = sorted.map((s) => `<option value="${escapeHtml(s.uid)}">${escapeHtml(s.name || s.email || 'Unnamed')}</option>`);
+    studentSelect.innerHTML = `<option value="" disabled selected>Choose a student&hellip;</option>` + options.join('');
+}
+
+function renderCompletions(completions) {
+    completionsCount.textContent = `${completions.length} completion${completions.length === 1 ? '' : 's'}`;
+    completionsBody.innerHTML = completions.length
+        ? completions.map(completionRowHtml).join('')
+        : `<tr><td colspan="5" class="specimen-empty">No real-lab completions marked yet.</td></tr>`;
+    completionsSection.hidden = false;
+}
+
+function completionRowHtml(c) {
+    return `
+        <tr>
+            <td>${escapeHtml(c.studentName || 'Unknown')}</td>
+            <td>${escapeHtml(practicalLabel(c.practical))}</td>
+            <td>${escapeHtml(c.note || '')}</td>
+            <td>${escapeHtml(c.teacherName || '')}</td>
+            <td>${escapeHtml(formatWhen(c.completedAt))}</td>
+        </tr>
+    `;
+}
+
+function renderReadings(readings) {
     const studentCount = new Set(readings.map((r) => r.uid)).size;
     summaryText.textContent = readings.length === 0
-        ? 'No readings have been recorded yet.'
-        : `${readings.length} reading${readings.length === 1 ? '' : 's'} from ${studentCount} student${studentCount === 1 ? '' : 's'}.`;
+        ? 'No simulation activity recorded yet.'
+        : `${readings.length} simulation entr${readings.length === 1 ? 'y' : 'ies'} from ${studentCount} student${studentCount === 1 ? '' : 's'}.`;
     summaryCard.hidden = false;
 
     readingsCount.textContent = `${readings.length} reading${readings.length === 1 ? '' : 's'}`;
-    readingsBody.innerHTML = readings.map(rowHtml).join('');
+    readingsBody.innerHTML = readings.length
+        ? readings.map(readingRowHtml).join('')
+        : `<tr><td colspan="5" class="specimen-empty">No simulation activity yet.</td></tr>`;
     readingsSection.hidden = false;
 }
 
-function rowHtml(r) {
+function readingRowHtml(r) {
     return `
         <tr>
             <td>${escapeHtml(r.name || 'Unknown')}</td>

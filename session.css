@@ -82,6 +82,23 @@
     box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
+.field select {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 10px 13px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    width: 100%;
+    background-color: var(--surface);
+    color: var(--ink);
+}
+
+.field select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
 .field input:disabled {
     background-color: #f0efe9;
     color: var(--ink-soft);
@@ -90,6 +107,7 @@
 
 #measure-btn,
 #start-btn,
+#completion-submit-btn,
 .checklist-submit-btn {
     font:inherit;
     font-weight: 600;
@@ -105,18 +123,21 @@
 
 #measure-btn:hover,
 #start-btn:hover,
+#completion-submit-btn:hover:not(:disabled),
 .checklist-submit-btn:hover:not(:disabled) {
     background-color: #266b60;
 }
 
 #measure-btn:active,
 #start-btn:active,
+#completion-submit-btn:active:not(:disabled),
 .checklist-submit-btn:active:not(:disabled) {
     transform: scale(0.98);
 }
 
 #measure-btn:disabled,
 #start-btn:disabled,
+#completion-submit-btn:disabled,
 .checklist-submit-btn:disabled {
     background-color: #a8ac9f;
     cursor: not-allowed;
@@ -607,10 +628,35 @@ stroke-linecap: round;
     margin-bottom: 0;
 }
 
-#readings-table-wrap {
+#readings-table-wrap,
+#completions-table-wrap {
     overflow-x: auto;
     border: 1px solid var(--line);
     border-radius: 10px;
+}
+
+/* The dashboard has wide tables, so it gets more room than the
+   narrow reading-width column the practical pages use. The form card
+   stays narrow so its fields don't stretch across the whole page. */
+.dashboard-page {
+    max-width: 900px;
+}
+
+.dashboard-page #mark-completion-card {
+    max-width: 560px;
+}
+
+#completions-section,
+#readings-section {
+    margin-bottom: 28px;
+}
+
+/* The completion form sits inside an already-boxed card, so it drops
+   the login form's own border and padding to avoid a box in a box. */
+.completion-form {
+    border: none;
+    padding: 0;
+    background: none;
 }
 
 .dashboard-table {

@@ -32,7 +32,8 @@ import {
     addDoc,
     getDocs,
     query,
-    orderBy
+    orderBy,
+    where
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
 // ---------- Account actions ----------
@@ -96,6 +97,40 @@ async function saveReading(practical, sampleId, data) {
 // a permission error from Firestore.
 async function getAllReadings() {
     const snap = await getDocs(query(collection(db, 'readings'), orderBy('createdAt', 'desc')));
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+// ---------- Teacher-verified real-lab completions ----------
+// See the SECURITY NOTE at the top: only a teacher account can
+// actually write these (enforced by firestore.rules, not just by
+// this code), regardless of what this JavaScript tries to do.
+
+// Every account with role: 'student', for the teacher to pick from
+// when marking a completion — including students who have never
+// opened the simulation, since this records the real, in-person
+// lab, not simulator usage.
+async function getAllStudents() {
+    const snap = await getDocs(query(collection(db, 'users'), where('role', '==', 'student')));
+    return snap.docs.map((d) => ({ uid: d.id, ...d.data() }));
+}
+
+async function markCompletion(studentUid, studentName, practical, note) {
+    if (!auth.currentUser) throw new Error('Not signed in.');
+    const teacherProfile = window.Auth.currentProfile;
+    const ref = await addDoc(collection(db, 'completions'), {
+        studentUid,
+        studentName,
+        practical,
+        note: note || '',
+        teacherUid: auth.currentUser.uid,
+        teacherName: teacherProfile ? teacherProfile.name : '',
+        completedAt: new Date().toISOString()
+    });
+    return ref.id;
+}
+
+async function getAllCompletions() {
+    const snap = await getDocs(query(collection(db, 'completions'), orderBy('completedAt', 'desc')));
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
@@ -182,6 +217,9 @@ window.Auth = {
     getProfile,
     saveReading,
     getAllReadings,
+    getAllStudents,
+    markCompletion,
+    getAllCompletions,
     safeNextPage,
     currentUser: null,
     currentProfile: null
