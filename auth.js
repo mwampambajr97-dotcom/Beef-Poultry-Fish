@@ -7,14 +7,12 @@
 // the rest of the site (plain, non-module scripts) a small public
 // API via window.Auth, since they can't use `import` directly.
 //
-// SECURITY NOTE: signUp() below always creates new accounts as
-// role: 'student'. There is no "sign up as teacher" option on
-// purpose — a signup form can never safely be trusted to self-
-// report a privileged role. Teacher accounts are promoted by
-// hand in the Firebase console (see the project notes for how).
-// The real enforcement of who can read what lives in
-// firestore.rules, not in this file — this file only decides
-// what the page displays.
+// SECURITY NOTE: this file decides what the page DISPLAYS. It
+// does not decide who is allowed to do what - anyone can open the
+// browser's dev tools and call Firebase directly, skipping this
+// code entirely. The real enforcement lives in firestore.rules:
+// new accounts are students unless they present the secret teacher
+// invite code, and no account can change its own role afterwards.
 // =====================================================
 
 import { auth, db } from './firebase-config.js';
@@ -22,6 +20,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    deleteUser,
     onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 import {
@@ -38,14 +37,43 @@ import {
 
 // ---------- Account actions ----------
 
-async function signUp(name, email, password) {
+// Creates the login, then the profile. Everyone is a student unless they
+// supply the teacher invite code; whether that code is actually valid is
+// decided by firestore.rules, not here. This function only has to react
+// honestly to the answer.
+async function signUp(name, email, password, inviteCode) {
+    const code = (inviteCode || '').trim();
     const credential = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, 'users', credential.user.uid), {
+
+    const profile = {
         name,
-        role: 'student', // see SECURITY NOTE above — always student at signup
+        role: code ? 'teacher' : 'student',
         email,
         createdAt: new Date().toISOString()
-    });
+    };
+    if (code) profile.inviteCode = code;
+
+    try {
+        await setDoc(doc(db, 'users', credential.user.uid), profile);
+    } catch (err) {
+        // The login exists but the profile was refused (most likely a wrong
+        // invite code). Undo the login so nobody is left with an account
+        // that has no profile, and so they can simply try again.
+        try {
+            await deleteUser(credential.user);
+        } catch (undoErr) {
+            console.error('Could not undo the half-created account:', undoErr);
+            try { await signOut(auth); } catch (_) { /* nothing more to do */ }
+        }
+
+        if (code && err && err.code === 'permission-denied') {
+            const friendly = new Error('That teacher invite code is not valid.');
+            friendly.code = 'invalid-invite-code';
+            throw friendly;
+        }
+        throw err;
+    }
+
     return credential.user;
 }
 

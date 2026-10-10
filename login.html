@@ -48,10 +48,10 @@
         </p>
 
         <p class="disclaimer-note" id="signup-note" hidden>
-            New accounts are created as students. Teacher accounts are granted
-            individually by the site administrator after signing up &mdash; there
-            is no self-service way to register as a teacher, since that keeps
-            other students' results private.
+            Students: leave the invite code blank. Teachers and supervisors: enter
+            the teacher invite code you were given. Accounts are created as
+            students unless a valid code is supplied, which keeps other
+            students' results private.
         </p>
 
         <p class="form-error" id="form-error" hidden></p>
@@ -70,6 +70,11 @@
             <div class="field">
                 <label for="login-password">Password</label>
                 <input type="password" id="login-password" placeholder="At least 6 characters" required minlength="6">
+            </div>
+
+            <div class="field" id="invite-field" hidden>
+                <label for="login-invite">Teacher invite code (teachers only)</label>
+                <input type="text" id="login-invite" placeholder="Leave blank if you are a student" autocomplete="off">
             </div>
 
             <button type="submit" id="login-btn">Log In</button>

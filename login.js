@@ -6,6 +6,8 @@
 const loginForm = document.getElementById('login-form');
 const nameField = document.getElementById('name-field');
 const nameInput = document.getElementById('login-name');
+const inviteField = document.getElementById('invite-field');
+const inviteInput = document.getElementById('login-invite');
 const emailInput = document.getElementById('login-email');
 const passwordInput = document.getElementById('login-password');
 const loginBtn = document.getElementById('login-btn');
@@ -27,6 +29,7 @@ function setMode(newMode) {
     tabSignup.classList.toggle('active', isSignup);
 
     nameField.hidden = !isSignup;
+    inviteField.hidden = !isSignup;
     nameInput.required = isSignup;
     signupNote.hidden = !isSignup;
 
@@ -56,7 +59,7 @@ loginForm.addEventListener('submit', async (event) => {
         if (mode === 'signup') {
             const name = nameInput.value.trim();
             if (!name) throw new Error('Enter your name.');
-            await window.Auth.signUp(name, email, password);
+            await window.Auth.signUp(name, email, password, inviteInput.value);
         } else {
             await window.Auth.logIn(email, password);
         }
@@ -76,6 +79,8 @@ loginForm.addEventListener('submit', async (event) => {
 function describeError(err) {
     const code = err && err.code;
     switch (code) {
+        case 'invalid-invite-code':
+            return 'That teacher invite code is not valid. Check it and try again, or leave it blank to register as a student.';
         case 'auth/email-already-in-use':
             return 'An account with that email already exists. Try logging in instead.';
         case 'auth/invalid-email':
