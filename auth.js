@@ -21,6 +21,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
     deleteUser,
+    sendPasswordResetEmail,
     onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 import {
@@ -80,6 +81,13 @@ async function signUp(name, email, password, inviteCode) {
 async function logIn(email, password) {
     const credential = await signInWithEmailAndPassword(auth, email, password);
     return credential.user;
+}
+
+// Asks Firebase to email a password-reset link. Firebase sends the email
+// and hosts the page where the person chooses a new password; nothing about
+// the new password ever passes through this site's code.
+async function resetPassword(email) {
+    await sendPasswordResetEmail(auth, (email || '').trim());
 }
 
 async function logOut() {
@@ -242,6 +250,7 @@ window.Auth = {
     signUp,
     logIn,
     logOut,
+    resetPassword,
     getProfile,
     saveReading,
     getAllReadings,
