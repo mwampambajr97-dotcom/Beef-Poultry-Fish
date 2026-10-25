@@ -66,8 +66,39 @@
                     <label for="sample-id">Sample ID</label>
                     <input type="text" id="sample-id" placeholder="B-01" required>
                 </div>
+                <div class="field">
+                    <label for="side-select">Side</label>
+                    <select id="side-select">
+                        <option value="A">Side A</option>
+                        <option value="B">Side B</option>
+                        <option value="C">Side C</option>
+                    </select>
+                </div>
                 <button type="submit" id="measure-btn">Take reading</button>
             </form>
+
+            <div class="surface-card" id="surface-card">
+                <p class="surface-empty" id="surface-empty">Enter a sample ID above to see its fillet.</p>
+
+                <div class="surface-stage" id="surface-stage" hidden>
+                    <svg id="fillet-svg" class="fillet-svg" viewBox="0 0 320 220" tabindex="0" role="group"
+                         aria-label="Cut surface of the fillet. Click or tap to place the measuring head, or use the arrow keys. Press Enter to take a reading."></svg>
+                </div>
+
+                <ul class="surface-legend" aria-label="Key">
+                    <li><span class="legend-swatch legend-swatch--head"></span>Measuring head</li>
+                    <li><span class="legend-swatch legend-swatch--fat"></span>Fat</li>
+                    <li><span class="legend-swatch legend-swatch--connective"></span>Connective tissue</li>
+                </ul>
+                <p class="surface-help">
+                    Click or tap the fillet to place the measuring head (the arrow keys work too),
+                    then press <strong>Take reading</strong>. Keep clear of fat and connective tissue.
+                </p>
+                <p class="surface-caption">
+                    Illustration, not a photograph of real meat. Its colour is drawn from this
+                    sample&rsquo;s L*, a*, b* values and will look different on different screens.
+                </p>
+            </div>
 
             <div class="instrument" id="instrument">
                 <div class="instrument-chip" id="instrument-chip"></div>
@@ -86,6 +117,12 @@
                     </div>
                 </dl>
                 <p class="instrument-status" id="instrument-status">Enter a sample ID to begin.</p>
+            </div>
+
+            <div class="coverage" id="coverage" hidden>
+                <h3 class="coverage-title">Coverage for this sample</h3>
+                <ul class="coverage-list" id="coverage-list"></ul>
+                <p class="coverage-note" id="coverage-note"></p>
             </div>
         </section>
 
@@ -118,6 +155,7 @@
     </footer>
 
     <script src="seeded-random.js"></script>
+    <script src="fillet-surface.js"></script>
     <script src="chromameter.js"></script>
     
     <script type="module" src="auth.js"></script>

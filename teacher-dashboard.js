@@ -192,7 +192,9 @@ function resultSummary(r) {
     const d = r.data || {};
     switch (r.practical) {
         case 'chromameter':
-            return `L* ${fmt(d.L)}, a* ${fmt(d.a)}, b* ${fmt(d.b)}`;
+            return `L* ${fmt(d.L)}, a* ${fmt(d.a)}, b* ${fmt(d.b)}`
+                + (d.side ? ` \u00B7 Side ${d.side}` : '')
+                + (d.zone === 'fat' ? ' (on fat)' : d.zone === 'connective' ? ' (on connective tissue)' : '');
         case 'texture-analyzer':
             return `${fmt(d.peakForce)} N`;
         case 'sausage-making':
