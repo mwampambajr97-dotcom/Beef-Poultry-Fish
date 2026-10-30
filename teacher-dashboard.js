@@ -11,6 +11,16 @@
 // - "Simulation activity" (readings): generated automatically
 //   by the app as students practise. Proves practice happened,
 //   nothing more.
+// Teacher activity: teachers can use the practicals too (they need to
+// check that saving works), and that is saved like anyone else's. It is
+// kept out of the student picture by default, though, so testing does not
+// look like extra students. Who counts as a student is decided from the
+// `users` collection (role 'student'), NOT from anything written on the
+// reading itself, because a student can write whatever they like on their
+// own reading but cannot change their own role (see firestore.rules).
+// If the student list cannot be loaded, nothing is hidden: it is better to
+// show too much than to hide a student's work by mistake.
+//
 // - "Real lab completions": only ever created by a teacher,
 //   through the form on this page, after actually witnessing
 //   a student complete the real practical. The app has no way
@@ -36,6 +46,12 @@ const summaryText = document.getElementById('summary-text');
 const readingsSection = document.getElementById('readings-section');
 const readingsCount = document.getElementById('readings-count');
 const readingsBody = document.getElementById('readings-body');
+const activityToggle = document.getElementById('activity-toggle');
+const showNonStudent = document.getElementById('show-nonstudent');
+const activityToggleText = document.getElementById('activity-toggle-text');
+
+let allReadings = [];
+let studentUids = null; // null = the student list could not be loaded
 
 window.addEventListener('auth-ready', async (event) => {
     const { user, profile } = event.detail;
@@ -66,7 +82,9 @@ window.addEventListener('auth-ready', async (event) => {
 
     stateBox.hidden = true;
     stateBox.innerHTML = '';
-    renderReadings(readingsRes.value);
+    allReadings = readingsRes.value;
+    studentUids = studentsRes.status === 'fulfilled' ? new Set(studentsRes.value.map((s) => s.uid)) : null;
+    renderReadings();
 
     // Completions are loaded separately so that a problem with them
     // (for example, new security rules not yet published) doesn't take
@@ -148,24 +166,60 @@ function completionRowHtml(c) {
     `;
 }
 
-function renderReadings(readings) {
-    const studentCount = new Set(readings.map((r) => r.uid)).size;
-    summaryText.textContent = readings.length === 0
-        ? 'No simulation activity recorded yet.'
-        : `${readings.length} simulation entr${readings.length === 1 ? 'y' : 'ies'} from ${studentCount} student${studentCount === 1 ? '' : 's'}.`;
+showNonStudent.addEventListener('change', renderReadings);
+
+function isStudentEntry(r) {
+    return studentUids === null || studentUids.has(r.uid);
+}
+
+function plural(n, one, many) {
+    return n === 1 ? one : many;
+}
+
+function renderReadings() {
+    const studentEntries = allReadings.filter(isStudentEntry);
+    const otherEntries = allReadings.filter((r) => !isStudentEntry(r));
+
+    // Offer the tick-box only when it would change something.
+    activityToggle.hidden = otherEntries.length === 0;
+    activityToggleText.textContent = `Include teacher and other non-student activity (${otherEntries.length})`;
+    const include = !activityToggle.hidden && showNonStudent.checked;
+    const visible = include ? allReadings : studentEntries;
+
+    const studentCount = new Set(studentEntries.map((r) => r.uid)).size;
+    const otherCount = new Set(otherEntries.map((r) => r.uid)).size;
+
+    if (allReadings.length === 0) {
+        summaryText.textContent = 'No simulation activity recorded yet.';
+    } else {
+        let summary = `${studentEntries.length} simulation ${plural(studentEntries.length, 'entry', 'entries')} from ${studentCount} ${plural(studentCount, 'student', 'students')}`;
+        if (otherEntries.length && include) {
+            summary += `, plus ${otherEntries.length} ${plural(otherEntries.length, 'entry', 'entries')} from ${otherCount} non-student ${plural(otherCount, 'account', 'accounts')}`;
+        }
+        summary += '.';
+        if (otherEntries.length && !include) {
+            summary += ` ${otherEntries.length} non-student ${plural(otherEntries.length, 'entry', 'entries')} hidden.`;
+        }
+        summaryText.textContent = summary;
+    }
     summaryCard.hidden = false;
 
-    readingsCount.textContent = `${readings.length} reading${readings.length === 1 ? '' : 's'}`;
-    readingsBody.innerHTML = readings.length
-        ? readings.map(readingRowHtml).join('')
-        : `<tr><td colspan="5" class="specimen-empty">No simulation activity yet.</td></tr>`;
+    readingsCount.textContent = `${visible.length} ${plural(visible.length, 'reading', 'readings')}`;
+    let empty = 'No simulation activity yet.';
+    if (allReadings.length > 0 && visible.length === 0) {
+        empty = 'No student activity yet. Tick the box above to see teacher activity.';
+    }
+    readingsBody.innerHTML = visible.length
+        ? visible.map(readingRowHtml).join('')
+        : `<tr><td colspan="5" class="specimen-empty">${escapeHtml(empty)}</td></tr>`;
     readingsSection.hidden = false;
 }
 
 function readingRowHtml(r) {
+    const tag = isStudentEntry(r) ? '' : ' <span class="non-student-tag">(non-student)</span>';
     return `
         <tr>
-            <td>${escapeHtml(r.name || 'Unknown')}</td>
+            <td>${escapeHtml(r.name || 'Unknown')}${tag}</td>
             <td>${escapeHtml(practicalLabel(r.practical))}</td>
             <td>${escapeHtml(r.sampleId || '')}</td>
             <td>${escapeHtml(resultSummary(r))}</td>

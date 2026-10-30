@@ -85,10 +85,16 @@ async function handleSubmit() {
         submitted = true;
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submitted \u2713';
+        const base = checked === total
+            ? 'Submitted \u2014 all items confirmed.'
+            : `Submitted \u2014 ${checked} of ${total} confirmed.`;
+        // "Your supervisor can see this" means nothing to a teacher. Tell them
+        // what actually happens to their entry instead.
+        const isTeacher = window.Auth?.currentProfile?.role === 'teacher';
         showStatus(
-            checked === total
-                ? 'Submitted \u2014 all items confirmed. Your supervisor can see this.'
-                : `Submitted \u2014 ${checked} of ${total} confirmed. Your supervisor can see this.`,
+            isTeacher
+                ? `${base} As a teacher account this is kept as test activity and hidden from the dashboard's student view by default.`
+                : `${base} Your supervisor can see this.`,
             'success'
         );
     } else {

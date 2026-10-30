@@ -980,3 +980,30 @@ stroke-linecap: round;
 .instrument-status--warn {
     color: #f0a47c;
 }
+
+/* Tick-box on the teacher dashboard for showing teacher / non-student activity */
+.activity-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.activity-toggle[hidden] {
+    display: none;
+}
+
+.activity-toggle input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.non-student-tag {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+}
