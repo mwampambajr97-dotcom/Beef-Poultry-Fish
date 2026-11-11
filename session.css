@@ -1007,3 +1007,61 @@ stroke-linecap: round;
     color: var(--ink-soft);
     font-size: 0.78rem;
 }
+
+/* =====================================================
+   DRYING TRAY (Sun Drying)
+===================================================== */
+.tray-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.drying-piece {
+    transform-origin: 0 0;
+    transition: transform 0.9s ease;
+}
+
+.drying-piece .piece-body {
+    transition: fill 0.9s ease;
+}
+
+.drying-piece .piece-wrinkles {
+    transition: opacity 0.9s ease;
+}
+
+/* People who ask their device to reduce motion get the final state at once. */
+@media (prefers-reduced-motion: reduce) {
+    .drying-piece,
+    .drying-piece .piece-body,
+    .drying-piece .piece-wrinkles {
+        transition: none;
+    }
+}
+
+/* The sentence under the picture changes length as the days go by. The Day
+   buttons sit below it, so its box keeps a fixed height big enough for the
+   longest version (two lines on a wide screen, four on a narrow one);
+   otherwise the next button would slide away just as the student reaches for it. */
+.tray-readout {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-top: 12px;
+    min-height: 3.2em;
+}
+
+@media (max-width: 640px) {
+    .tray-readout {
+        min-height: 6.4em;
+    }
+}
+
+.legend-swatch--ghost {
+    width: 18px;
+    height: 8px;
+    border-radius: 3px;
+    background: none;
+    border: 1px dashed rgba(0, 0, 0, 0.45);
+}

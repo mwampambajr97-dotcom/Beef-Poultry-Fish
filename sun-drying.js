@@ -36,7 +36,13 @@ const emptyMsg = document.getElementById('specimen-empty');
 const logCount = document.getElementById('log-count');
 const targetNote = document.getElementById('target-note');
 
+const trayEmpty = document.getElementById('tray-empty');
+const trayStage = document.getElementById('tray-stage');
+const traySvg = document.getElementById('tray-svg');
+const trayReadout = document.getElementById('tray-readout');
+
 let currentBatch = null; // { sampleId, startMoisture, decayRate }
+let tray = null;         // the drawn pieces for this batch
 const recordedPoints = []; // { day, moisture }
 
 startForm.addEventListener('submit', (event) => {
@@ -55,6 +61,13 @@ startForm.addEventListener('submit', (event) => {
         btn.disabled = btn.dataset.day !== '0';
         btn.classList.remove('done');
     });
+
+    // Lay the pieces out on the tray, fresh and full size.
+    tray = TrayVisual.buildTray(sampleId);
+    TrayVisual.renderTray(traySvg, tray);
+    setTrayText('Pieces prepared and laid on the tray, before drying. Record Day 0 to begin.');
+    trayEmpty.hidden = true;
+    trayStage.hidden = false;
 
     grid.innerHTML = '';
     targetNote.hidden = true;
@@ -76,6 +89,13 @@ dayButtons.forEach((btn) => {
         updateSummary();
 
         status.textContent = `Day ${day}: ${moisture.toFixed(1)}% moisture.`;
+
+        // The picture follows the numbers: the pieces shrink and darken by
+        // the amounts the moisture readings imply (see tray-visual.js).
+        const state = TrayVisual.setTrayDay(traySvg, tray, currentBatch.startMoisture, moisture);
+        setTrayText(day === 0
+            ? `Day 0: ${moisture.toFixed(1)}% moisture. This is the starting point, with all of the starting mass still there.`
+            : `Day ${day}: ${moisture.toFixed(1)}% moisture. About ${state.massPercent}% of the starting mass is left, and about ${state.waterPercent}% of the water has gone.`);
 
         window.Auth?.saveReading('sun-drying', currentBatch.sampleId, { day, moisture });
 
@@ -102,6 +122,13 @@ function createBatch(sampleId) {
 // always decreasing, never independently re-randomised per day.
 function moistureOnDay(batch, day) {
     return batch.startMoisture * Math.pow(1 - batch.decayRate, day / 2);
+}
+
+// One place for the sentence under the picture, which doubles as its
+// accessible description for screen readers.
+function setTrayText(text) {
+    trayReadout.textContent = text;
+    traySvg.setAttribute('aria-label', `Meat pieces on a drying tray. ${text}`);
 }
 
 function enableNextDay(justCompletedDay) {

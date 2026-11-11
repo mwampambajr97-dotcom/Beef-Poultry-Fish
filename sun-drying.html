@@ -96,6 +96,26 @@
                 <button type="submit" id="start-btn">Start batch</button>
             </form>
 
+            <div class="surface-card" id="tray-card">
+                <p class="surface-empty" id="tray-empty">Start a batch to lay the pieces out on the tray.</p>
+
+                <div class="surface-stage" id="tray-stage" hidden>
+                    <svg id="tray-svg" class="tray-svg" viewBox="0 0 320 220" role="img"
+                         aria-label="Meat pieces laid out on a drying tray."></svg>
+                    <p class="tray-readout" id="tray-readout" aria-live="polite"></p>
+
+                    <ul class="surface-legend" aria-label="Key">
+                        <li><span class="legend-swatch legend-swatch--ghost"></span>Size at Day 0</li>
+                    </ul>
+                    <p class="surface-caption">
+                        Illustration, not a photograph. The size and the percentages are worked out
+                        from the moisture readings, assuming only water is lost and that the pieces
+                        shrink evenly. Real meat shrinks and darkens differently, and the colours here
+                        are only for illustration.
+                    </p>
+                </div>
+            </div>
+
             <div class="instrument instrument--curve" id="instrument" hidden>
                 <div class="curve-wrap">
                     <svg viewBox="0 0 300 120" class="curve-svg" id="curve-svg" preserveAspectRatio="none">
@@ -144,6 +164,8 @@
     </footer>
 
     <script src="seeded-random.js"></script>
+    <script src="draw-utils.js"></script>
+    <script src="tray-visual.js"></script>
     <script src="sun-drying.js"></script>
     <script type="module" src="auth.js"></script>
 </body>
