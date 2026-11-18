@@ -1065,3 +1065,25 @@ stroke-linecap: round;
     background: none;
     border: 1px dashed rgba(0, 0, 0, 0.45);
 }
+
+/* =====================================================
+   SHEAR RIG (Texture Analyzer)
+===================================================== */
+.rig-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.rig-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #7d8b98;
+    margin-top: -4px;
+}
+
+.curve-dot {
+    fill: #f2f3f1;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+}

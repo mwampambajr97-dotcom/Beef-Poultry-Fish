@@ -71,15 +71,24 @@
         </form>
 
         <div class="instrument instrument--curve" id="instrument">
+            <svg id="rig-svg" class="rig-svg" viewBox="0 0 320 170" role="img"
+                 aria-label="Side view of a blade coming down through a strip of cooked meat. The meat dents under the blade and splits at the moment the force curve peaks."></svg>
+            <p class="rig-caption">
+                Illustration, not a photograph. The blade&rsquo;s depth matches the horizontal axis of the
+                curve below, and the strip splits when the force peaks. The sample is cut along its
+                fibres, so the blade cuts across them.
+            </p>
+
             <div class="curve-wrap">
                 <svg viewBox="0 0 300 120" class="curve-svg" id="curve-svg" preserveAspectRatio="none">
                     <line x1="0" y1="119" x2="300" y2="119" class="curve-axis" />
                 <polyline id="curve-line" class="curve-line" points="" />
+                    <circle id="curve-dot" class="curve-dot" r="3" cx="0" cy="0" visibility="hidden" />
                 </svg>
             </div>
             <div class="instrument-readout instrument-readout--single">
                 <div>
-                    <dt>Peak shear force</dt>
+                    <dt id="val-label">Peak shear force</dt>
                     <dd id="val-peak">&ndash;</dd>
                 </div>
             </div>
@@ -112,6 +121,8 @@
 </footer>
 
 <script src="seeded-random.js"></script>
+<script src="draw-utils.js"></script>
+<script src="shear-rig.js"></script>
 <script src="texture-analyzer.js"></script>
     <script type="module" src="auth.js"></script>
 </body>

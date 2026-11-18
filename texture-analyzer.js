@@ -40,6 +40,9 @@ const measureBtn = document.getElementById('measure-btn');
 
 const curveLine = document.getElementById('curve-line');
 const valPeak = document.getElementById('val-peak');
+const valLabel = document.getElementById('val-label');
+const curveDot = document.getElementById('curve-dot');
+const rigSvg = document.getElementById('rig-svg');
 const status = document.getElementById('instrument-status');
 
 const grid = document.getElementById('specimen-grid');
@@ -52,6 +55,8 @@ const avgPeak = document.getElementById('avg-peak');
 const readings = []; // { id, sampleId, peakForce }
 let nextId = 1;
 
+ShearRig.renderRig(rigSvg); // the blade, hovering above the sample
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const sampleId = sampleIdInput.value.trim();
@@ -62,25 +67,45 @@ form.addEventListener('submit', (event) => {
     }
 
     measureBtn.disabled = true;
-    status.textContent = 'Running test…';
+    status.textContent = 'Blade coming down to touch the sample…';
     curveLine.setAttribute('points', '');
+    hideDot();
+    valLabel.textContent = 'Force now';
+    valPeak.textContent = '0.0 N';
 
-    setTimeout(() => {
-        const { points, peakForce } = simulateCurve(sampleId);
-        drawCurve(points);
-        valPeak.textContent = `${peakForce.toFixed(1)} N`;
+    // The whole test is worked out first, exactly as before; the animation
+    // then plays it back. The picture shows the numbers, it never changes them.
+    const { points, peakForce, peakPosition } = simulateCurve(sampleId);
 
-        const reading = { id: nextId++, sampleId, peakForce };
-        readings.push(reading);
-        addSpecimenTicket(reading);
-        updateSummary();
-
-        status.textContent = `Peak force reached: ${peakForce.toFixed(1)} N.`;
-        measureBtn.disabled = false;
-
-        window.Auth?.saveReading('texture-analyzer', sampleId, { peakForce });
-    }, 500);
+    ShearRig.play({
+        svg: rigSvg, points, peakForce, peakPosition,
+        onFrame: ({ phase, t, force }) => {
+            if (phase !== 'test') return;
+            drawCurveUpTo(points, t, force);
+            valPeak.textContent = `${force.toFixed(1)} N`;
+            status.textContent = 'Test running…';
+        },
+        // Nothing is recorded until the test has actually finished.
+        onDone: () => finishRun(sampleId, peakForce, points)
+    });
 });
+
+function finishRun(sampleId, peakForce, points) {
+    drawCurve(points);
+    hideDot();
+    valLabel.textContent = 'Peak shear force';
+    valPeak.textContent = `${peakForce.toFixed(1)} N`;
+
+    const reading = { id: nextId++, sampleId, peakForce };
+    readings.push(reading);
+    addSpecimenTicket(reading);
+    updateSummary();
+
+    status.textContent = `Peak force reached: ${peakForce.toFixed(1)} N.`;
+    measureBtn.disabled = false;
+
+    window.Auth?.saveReading('texture-analyzer', sampleId, { peakForce });
+}
 
 // Builds a plausible force-vs-displacement curve:
 // force rises roughly linearly, peaks (the shear point),
@@ -122,7 +147,7 @@ function simulateCurve(sampleId) {
         points.push({ x: t, y: Math.max(0, force) });
     }
 
-    return { points, peakForce };
+    return { points, peakForce, peakPosition };
 }
 
 function randomInRange(min, max) {
@@ -130,19 +155,35 @@ function randomInRange(min, max) {
 }
 
 // Converts the 0-1 normalised points into SVG coordinates and draws them
-function drawCurve(points) {
-    const maxForce = Math.max(...points.map(p => p.y), 1);
+// Draws the curve. `scaleFrom` fixes the vertical scale, so a curve that is
+// still being drawn does not keep rescaling as it grows.
+function drawCurve(points, scaleFrom = points) {
+    const maxForce = Math.max(...scaleFrom.map(p => p.y), 1);
     const svgWidth = 300;
     const svgHeight = 120;
     const padding = 6;
 
-    const coords = points.map(p => {
-        const x = p.x * svgWidth;
-        const y = svgHeight - padding - (p.y / maxForce) * (svgHeight - padding * 2);
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
+    const coords = points.map(p => ({
+        x: p.x * svgWidth,
+        y: svgHeight - padding - (p.y / maxForce) * (svgHeight - padding * 2)
+    }));
 
-    curveLine.setAttribute('points', coords.join(' '));
+    curveLine.setAttribute('points', coords.map(c => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' '));
+    return coords[coords.length - 1];
+}
+
+// The curve as far as the blade has got, with a dot at the tip.
+function drawCurveUpTo(points, t, force) {
+    const visible = points.filter(p => p.x <= t);
+    visible.push({ x: t, y: force });
+    const tip = drawCurve(visible, points);
+    curveDot.setAttribute('cx', tip.x.toFixed(1));
+    curveDot.setAttribute('cy', tip.y.toFixed(1));
+    curveDot.setAttribute('visibility', 'visible');
+}
+
+function hideDot() {
+    curveDot.setAttribute('visibility', 'hidden');
 }
 
 function addSpecimenTicket(reading) {
