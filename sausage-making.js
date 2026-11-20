@@ -21,6 +21,9 @@ const measureBtn = document.getElementById('measure-btn');
 const valTemp = document.getElementById('val-temp');
 const status = document.getElementById('instrument-status');
 
+const flowSvg = document.getElementById('flow-svg');
+const chartSvg = document.getElementById('chart-svg');
+
 const grid = document.getElementById('specimen-grid');
 const emptyMsg = document.getElementById('specimen-empty');
 const logCount = document.getElementById('log-count');
@@ -43,6 +46,20 @@ function getTrueTemp(sampleId) {
     return batchTrueTemp[sampleId];
 }
 
+// ---------- The process line follows the checklist ----------
+const checklistBoxes = document.querySelectorAll('[data-checklist-item]');
+
+function updateFlow() {
+    SausageVisual.setFlowProgress(flowSvg, Array.from(checklistBoxes).map((box) => box.checked));
+}
+
+SausageVisual.renderFlow(flowSvg);
+checklistBoxes.forEach((box) => box.addEventListener('change', updateFlow));
+updateFlow();
+
+// ---------- The temperature check ----------
+SausageVisual.renderChart(chartSvg);
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const sampleId = sampleIdInput.value.trim();
@@ -53,26 +70,35 @@ form.addEventListener('submit', (event) => {
     }
 
     measureBtn.disabled = true;
-    status.textContent = 'Checking…';
+    status.textContent = 'Replaying the three smoking stages…';
 
-    setTimeout(() => {
-        const trueTemp = getTrueTemp(sampleId);
-        const temp = trueTemp + (Math.random() - 0.5) * 0.6; // small thermometer-reading noise
-        valTemp.textContent = `${temp.toFixed(1)}\u00B0C`;
+    // The reading is decided first, exactly as before. The chart then plays
+    // back how the inside of the sausage got there; it never changes the number.
+    const trueTemp = getTrueTemp(sampleId);
+    const temp = trueTemp + (Math.random() - 0.5) * 0.6; // small thermometer-reading noise
+    const curve = SausageVisual.coreCurve(temp);
 
-        const passed = temp >= TEMP_CONFIG.TARGET_INTERNAL_TEMP;
-        const reading = { id: nextId++, sampleId, temp, passed };
-        readings.push(reading);
-        addSpecimenTicket(reading);
-        updateSummary();
+    SausageVisual.playChart({
+        svg: chartSvg, curve, reading: temp,
+        onFrame: ({ T }) => { valTemp.textContent = `${T.toFixed(1)}\u00B0C`; },
+        // Nothing is recorded until the run has finished.
+        onDone: () => {
+            valTemp.textContent = `${temp.toFixed(1)}\u00B0C`;
 
-        status.textContent = passed
-            ? `Target reached (\u226568\u00B0C). Batch complete.`
-            : `Below target (68\u00B0C) \u2014 continue smoking.`;
-        measureBtn.disabled = false;
+            const passed = temp >= TEMP_CONFIG.TARGET_INTERNAL_TEMP;
+            const reading = { id: nextId++, sampleId, temp, passed };
+            readings.push(reading);
+            addSpecimenTicket(reading);
+            updateSummary();
 
-        window.Auth?.saveReading('sausage-making', sampleId, { temp, passed });
-    }, 500);
+            status.textContent = passed
+                ? `Target reached (\u226568\u00B0C). Batch complete. The inside reached 68\u00B0C at ${curve.crossing.toFixed(1)} h of the ${SausageVisual.HOURS} h.`
+                : `Below target (68\u00B0C) \u2014 continue smoking.`;
+            measureBtn.disabled = false;
+
+            window.Auth?.saveReading('sausage-making', sampleId, { temp, passed });
+        }
+    });
 });
 
 function addSpecimenTicket(reading) {

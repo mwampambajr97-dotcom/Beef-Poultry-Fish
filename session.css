@@ -1087,3 +1087,98 @@ stroke-linecap: round;
     stroke: var(--accent);
     stroke-width: 1.5;
 }
+
+/* =====================================================
+   SAUSAGE MAKING: the process line and the smokehouse chart
+===================================================== */
+.flow-card {
+    background-color: #14202b;
+    border-radius: 12px;
+    padding: 14px 14px 10px;
+    margin-bottom: 16px;
+}
+
+.flow-svg,
+.chart-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.flow-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #7d8b98;
+    margin-top: 6px;
+}
+
+/* Colours for the stage drawings. They live here, not in the script, so the
+   "next" and "done" looks are set in one place. */
+.flow-icon {
+    fill: none;
+    stroke: #6b7a88;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.3s ease, fill 0.3s ease;
+}
+
+.flow-icon--thick {
+    stroke-width: 4;
+}
+
+.flow-arrow {
+    fill: none;
+    stroke: #3b4a58;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.flow-label {
+    font-family: var(--font-data);
+    font-size: 10px;
+    fill: #8794a1;
+}
+
+.flow-badge circle {
+    fill: #2f7a6e;
+}
+
+.flow-badge path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.flow-station:not([data-state="done"]) .flow-badge {
+    display: none;
+}
+
+.flow-station[data-state="current"] .flow-icon {
+    stroke: #e6edf2;
+}
+
+.flow-station[data-state="current"] .flow-label {
+    fill: #e6edf2;
+}
+
+.flow-station[data-state="done"] .flow-icon {
+    stroke: #5cc2ae;
+}
+
+.flow-station[data-state="done"] .flow-fill {
+    fill: rgba(92, 194, 174, 0.18);
+}
+
+.flow-station[data-state="done"] .flow-label {
+    fill: #9fd9cc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flow-icon {
+        transition: none;
+    }
+}

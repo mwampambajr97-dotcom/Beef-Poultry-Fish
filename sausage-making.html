@@ -119,14 +119,22 @@
                 <h2>Batch Process Checklist</h2>
                 <p class="specimen-log-count" id="checklist-count">0 of 7 confirmed</p>
             </div>
+            <div class="flow-card">
+                <svg id="flow-svg" class="flow-svg" viewBox="0 0 320 100" role="img"
+                     aria-label="The sausage-making stages in order."></svg>
+                <p class="flow-caption">
+                    Illustration. Each stage lights up as you tick the matching steps below,
+                    which follow the procedure in the manual.
+                </p>
+            </div>
             <ul class="checklist" id="checklist" data-save-key="sausage-making-checklist">
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Kept meat cold throughout handling</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Washed and ground the meat</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground a second time for consistency</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Prepared and mixed in the slurry</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground to final consistency</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Stuffed the mixture into casings</label></li>
-                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Completed all three smoking stages</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Kept the meat as cold as possible</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Washed the meat and placed it in the grinder</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground the meat</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Added the slurry and mixed thoroughly</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Ground again to the desired consistency</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Placed the mixture into casings</label></li>
+                <li class="checklist-item"><label><input type="checkbox" data-checklist-item> Smoked in three stages, then let the sausages cool</label></li>
             </ul>
 
             <button type="button" id="checklist-submit-btn" class="checklist-submit-btn" disabled>
@@ -146,6 +154,16 @@
             </form>
 
             <div class="instrument instrument--curve" id="instrument">
+                <svg id="chart-svg" class="chart-svg" viewBox="0 0 320 190" role="img"
+                     aria-label="Chart of temperature against time over the three smoking stages, showing the smokehouse temperature, the 68 degree target and the inside of the sausage warming up."></svg>
+                <p class="rig-caption">
+                    Illustration. The three smoking stages and the 68&deg;C target are from the manual.
+                    The curve for the inside of the sausage is a simple model: it warms toward the
+                    smokehouse temperature and is drawn to finish at this batch&rsquo;s reading. Real
+                    sausages warm at different rates, and the cold starting temperature (about 4&deg;C)
+                    is an assumption.
+                </p>
+
                 <div class="instrument-readout instrument-readout--single">
                     <div>
                         <dt>Internal temperature</dt>
@@ -182,6 +200,7 @@
 
     <script src="seeded-random.js"></script>
     <script src="checklist.js"></script>
+    <script src="sausage-visual.js"></script>
     <script src="sausage-making.js"></script>
     <script type="module" src="auth.js"></script>
 </body>
