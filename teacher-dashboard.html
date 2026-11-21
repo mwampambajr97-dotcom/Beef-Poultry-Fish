@@ -61,7 +61,8 @@
             <p class="session-lede checklist-intro">
                 Use this after you've personally witnessed a student complete a
                 practical in person. This is your own record, separate from
-                anything the simulation captured.
+                anything the simulation captured. The student can see that it
+                was confirmed, and any note you add.
             </p>
 
             <form id="completion-form" class="login-form completion-form">
@@ -84,7 +85,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="completion-note">Note (optional)</label>
+                    <label for="completion-note">Note (optional &mdash; the student can see this)</label>
                     <input type="text" id="completion-note" placeholder="e.g. Completed 15 Oct, good technique">
                 </div>
 
@@ -151,6 +152,7 @@
     </footer>
 
     <script type="module" src="auth.js"></script>
+    <script src="results-format.js"></script>
     <script src="teacher-dashboard.js"></script>
 </body>
 </html>

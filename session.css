@@ -661,7 +661,8 @@ stroke-linecap: round;
 }
 
 #readings-table-wrap,
-#completions-table-wrap {
+#completions-table-wrap,
+#entries-table-wrap {
     overflow-x: auto;
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -1180,5 +1181,182 @@ stroke-linecap: round;
 @media (prefers-reduced-motion: reduce) {
     .flow-icon {
         transition: none;
+    }
+}
+
+/* =====================================================
+   MY RESULTS (student)
+===================================================== */
+.results-page {
+    max-width: 900px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.result-card {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.result-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.result-card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.result-chip {
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 3px 10px;
+    white-space: nowrap;
+}
+
+.result-chip--on {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+}
+
+.result-chip--off {
+    background-color: #eceae3;
+    color: var(--ink-soft);
+}
+
+.result-lines {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.result-none {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.result-meta {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+}
+
+.result-lab {
+    font-size: 0.85rem;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+}
+
+.result-lab--yes {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.result-lab--no {
+    color: var(--ink-soft);
+}
+
+.result-open {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.result-open:hover {
+    text-decoration: underline;
+}
+
+.entries-filter {
+    max-width: 260px;
+    margin-bottom: 12px;
+}
+
+/* On the student's results list the Sample ID and Result columns may wrap, so the
+   date on the right is not pushed out of sight. (Sample IDs are typed by students and
+   can be long, so they may break anywhere; dates never wrap.) */
+#entries-table-wrap .dashboard-table td:nth-child(2),
+#entries-table-wrap .dashboard-table td:nth-child(3) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* On a phone a four-column table has no good shape: squeezed, the text breaks into
+   single letters; wide, it scrolls sideways. So each entry becomes a small card, with
+   the column name shown beside each value. */
+@media (max-width: 640px) {
+    #entries-table-wrap {
+        overflow-x: visible;
+        border: none;
+        border-radius: 0;
+    }
+
+    #entries-table-wrap .dashboard-table,
+    #entries-table-wrap tbody {
+        display: block;
+        background: none;
+    }
+
+    #entries-table-wrap thead {
+        display: none;
+    }
+
+    #entries-table-wrap tr {
+        display: block;
+        background-color: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+    }
+
+    #entries-table-wrap td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 14px;
+        padding: 4px 0;
+        border: none;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        text-align: right;
+    }
+
+    #entries-table-wrap td::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        text-align: left;
+        font-family: var(--font-data);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-soft);
+    }
+
+    /* the "nothing here yet" row spans the table and has no label */
+    #entries-table-wrap td.specimen-empty {
+        display: block;
+        text-align: left;
+    }
+
+    #entries-table-wrap td.specimen-empty::before {
+        content: none;
     }
 }

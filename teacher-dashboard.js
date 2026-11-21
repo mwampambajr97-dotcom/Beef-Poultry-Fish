@@ -27,6 +27,10 @@
 //   to generate these on its own.
 // =====================================================
 
+// How a result is worded lives in results-format.js, shared with the student's
+// My Results page, so the two can never describe the same entry differently.
+const { practicalLabel, resultSummary, formatWhen, escapeHtml, plural } = window.ResultsFormat;
+
 const stateBox = document.getElementById('dashboard-state');
 
 const markCard = document.getElementById('mark-completion-card');
@@ -172,10 +176,6 @@ function isStudentEntry(r) {
     return studentUids === null || studentUids.has(r.uid);
 }
 
-function plural(n, one, many) {
-    return n === 1 ? one : many;
-}
-
 function renderReadings() {
     const studentEntries = allReadings.filter(isStudentEntry);
     const otherEntries = allReadings.filter((r) => !isStudentEntry(r));
@@ -228,53 +228,3 @@ function readingRowHtml(r) {
     `;
 }
 
-function practicalLabel(key) {
-    const labels = {
-        'chromameter': 'Chromameter',
-        'texture-analyzer': 'Texture Analyzer',
-        'sausage-making': 'Sausage Making',
-        'sun-drying': 'Sun Drying',
-        'orientation': 'Orientation',
-        'sausage-making-checklist': 'Sausage Making (checklist)'
-    };
-    return labels[key] || key;
-}
-
-// Picks a short, human-readable summary depending on which
-// practical the reading came from, since each stores different fields.
-function resultSummary(r) {
-    const d = r.data || {};
-    switch (r.practical) {
-        case 'chromameter':
-            return `L* ${fmt(d.L)}, a* ${fmt(d.a)}, b* ${fmt(d.b)}`
-                + (d.side ? ` \u00B7 Side ${d.side}` : '')
-                + (d.zone === 'fat' ? ' (on fat)' : d.zone === 'connective' ? ' (on connective tissue)' : '');
-        case 'texture-analyzer':
-            return `${fmt(d.peakForce)} N`;
-        case 'sausage-making':
-            return `${fmt(d.temp)}\u00B0C ${d.passed ? '(target reached)' : '(below target)'}`;
-        case 'sun-drying':
-            return `Day ${d.day}: ${fmt(d.moisture)}% moisture`;
-        case 'orientation':
-        case 'sausage-making-checklist':
-            return `${d.confirmed} of ${d.total} confirmed`;
-        default:
-            return JSON.stringify(d);
-    }
-}
-
-function fmt(n) {
-    return typeof n === 'number' ? n.toFixed(1) : n;
-}
-
-function formatWhen(iso) {
-    if (!iso) return '';
-    const date = new Date(iso);
-    return date.toLocaleString();
-}
-
-function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = String(str);
-    return div.innerHTML;
-}

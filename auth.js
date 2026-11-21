@@ -136,6 +136,31 @@ async function getAllReadings() {
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
+// ---------- A student's own results ----------
+// The security rules only let a student read documents that belong to them,
+// and Firestore insists the query itself proves that: it must filter on the
+// student's own id. (The rules are a gate, not a filter.)
+//
+// These queries deliberately do NOT also ask Firestore to sort. Combining an
+// equality filter with a sort on a different field needs a composite index,
+// which would have to be created by hand in the Firebase console. A student's
+// own entries are few, so they are sorted here instead, newest first.
+async function getMyReadings() {
+    if (!auth.currentUser) return [];
+    const snap = await getDocs(query(collection(db, 'readings'), where('uid', '==', auth.currentUser.uid)));
+    return snap.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+}
+
+async function getMyCompletions() {
+    if (!auth.currentUser) return [];
+    const snap = await getDocs(query(collection(db, 'completions'), where('studentUid', '==', auth.currentUser.uid)));
+    return snap.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.completedAt || '').localeCompare(a.completedAt || ''));
+}
+
 // ---------- Teacher-verified real-lab completions ----------
 // See the SECURITY NOTE at the top: only a teacher account can
 // actually write these (enforced by firestore.rules, not just by
@@ -181,9 +206,10 @@ function renderAuthStatus(user, profile) {
         return;
     }
 
+    // Teachers get the Dashboard; students get their own results page.
     const dashboardLink = profile.role === 'teacher'
         ? `<a href="teacher-dashboard.html" class="auth-link">Dashboard</a>`
-        : '';
+        : `<a href="my-results.html" class="auth-link">My Results</a>`;
 
     container.innerHTML = `
         <span class="auth-name">${escapeHtml(profile.name)} &middot; ${escapeHtml(profile.role)}</span>
@@ -254,6 +280,8 @@ window.Auth = {
     getProfile,
     saveReading,
     getAllReadings,
+    getMyReadings,
+    getMyCompletions,
     getAllStudents,
     markCompletion,
     getAllCompletions,
